@@ -1,8 +1,18 @@
 import React from 'react';
 import './Header.module.css';
+import { useNavigate, useLocation } from "react-router-dom";
 import logo from '../../img/logo.png'; 
 
 const Header: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const open = () => {
+    navigate(`/login`, {
+      state: { backgroundLocation: location },
+    });
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container">
@@ -38,7 +48,7 @@ const Header: React.FC = () => {
               </a>
             </li>
           </ul>
-          <button className="btn btn-warning me-2">Разместить объявление</button>
+          <button className="btn btn-warning me-2" onClick={open}>Войти</button>
           <a href="#" className="login-icon">
             <i className="bi bi-person"></i>
           </a>
