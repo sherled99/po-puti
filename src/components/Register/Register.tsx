@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUserThunk } from '../../services/actions/user';
+import { register } from '../../services/actions/user';
 import { RootState } from '../../services/types';
 
 const Register: React.FC = () => {
@@ -14,7 +14,7 @@ const Register: React.FC = () => {
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(registerUserThunk({ firstName, secondName, email, password }) as any);
+    dispatch(register({ firstName, secondName, email, password }) as any);
   };
 
   return (

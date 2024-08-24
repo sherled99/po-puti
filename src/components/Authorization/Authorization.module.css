@@ -1,12 +1,13 @@
 .modalContent {
-  background-color: white;
+  background-color: #fff;
   border-radius: 40px;
   padding: 30px;
   box-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04), 
               0px 16px 24px rgba(0, 0, 0, 0.04), 
               0px 4px 8px rgba(0, 0, 0, 0.04), 
               0px 0px 1px rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(76, 76, 255, 0.2);
+  border: 1px solid rgba(95, 95, 99, 0.2);
+  width: 492px;
 }
 
 .modalHeader {
@@ -14,6 +15,7 @@
   justify-content: center;
   margin-bottom: 30px;
   position: relative;
+  max-height: 55px;
 }
 
 .btnToggleGroup {
@@ -25,13 +27,12 @@
   justify-content: space-between;
   width: 300px; 
   background-color: #fff;
-  position: relative; /* для псевдоэлемента */
+  position: relative;
 }
 
 .btnToggle {
   border: none;
   background-color: transparent;
-  color: #333;
   font-size: 18px;
   padding: 10px 20px;
   cursor: pointer;
@@ -39,8 +40,11 @@
   border-radius: 50px;
   min-width: 120px;
   text-align: center;
-  position: relative; /* для корректного расположения текста */
-  z-index: 1; /* чтобы текст был выше псевдоэлемента */
+  position: relative;
+  z-index: 1;
+  line-height: 28px;
+  font-size: 17px;
+  font-weight: 700;
 }
 
 .btnToggleGroup::before {
@@ -49,25 +53,36 @@
   top: 0;
   bottom: 0;
   left: 0;
-  width: 50%;
-  background-color: #333; /* цвет обводки */
+  border: solid 3px white;
+  background-color: #333;
   border-radius: 50px;
   transition: transform 0.3s ease;
-  z-index: 0; /* чтобы обводка была под текстом */
+  z-index: 0;
+}
+
+.btnLeft{
+  margin-left: -5px;
+}
+
+.btnRight{
+  margin-right: 17px;
 }
 
 .active {
-  color: #fff; /* белый текст для активной кнопки */
+  color: #fff;
+
 }
 
 .btnText {
   color: #000;
 }
 
-.isLoginActive .btnToggleGroup::before {
-  transform: translateX(0); /* обводка слева */
+.isLoginActive .btnToggleGroup::before { /* обводка слева */
+  transform: translateX(0);
+  width: 40%;
 }
 
-.isRegisterActive .btnToggleGroup::before {
-  transform: translateX(100%); /* обводка справа */
+.isRegisterActive .btnToggleGroup::before { /* обводка справа */
+  transform: translateX(53%);
+  width: 65%;
 }

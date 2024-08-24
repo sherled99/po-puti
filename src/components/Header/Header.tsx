@@ -7,16 +7,18 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const open = () => {
+  const openLogin = () => {
     navigate(`/login`, {
       state: { backgroundLocation: location },
     });
   };
 
+  const openMainPage = () => navigate('/');
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container">
-        <a className="navbar-brand" href="#">
+        <a className="navbar-brand" onClick={openMainPage}>
           <img src={logo} alt="Logo" />
         </a>
         <button
@@ -48,7 +50,7 @@ const Header: React.FC = () => {
               </a>
             </li>
           </ul>
-          <button className="btn btn-warning me-2" onClick={open}>Войти</button>
+          <button className="btn btn-warning me-2" onClick={openLogin}>Войти</button>
           <a href="#" className="login-icon">
             <i className="bi bi-person"></i>
           </a>

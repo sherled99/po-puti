@@ -1,0 +1,96 @@
+.loginForm {
+    width: 100%;
+    padding: 0 24px;
+    margin: 0 auto;
+  }
+  
+  .inputGroup {
+    margin-bottom: 20px;
+  }
+  
+  .inputField {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+  
+  .submitButton {
+    width: 100%;
+    padding: 15px;
+    background-color: #FFCC4E;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .submitButton:hover {
+    background-color: #f9a828;
+  }
+  
+  .forgotPassword {
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .forgotPassword a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .agreementText {
+    font-size: 12px;
+    text-align: center;
+    color: #5C636B;
+    margin-top: 20px;
+    line-height: 20px;
+  }
+
+  .agreementTextLink {
+    text-decoration: none;
+  }
+  
+  .socialLogin {
+    display: flex;
+    margin-top: 30px;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 20px;
+    height: 74px;
+    background-color: #F7F8F9;
+  }
+
+  .socialLoginText {
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+    margin: 0;
+  }
+  
+  .socialIcons {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .socialButton {
+    border: none;
+    margin: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    padding: 0;
+  }
+  
+  .socialLogo {
+    width: 28px;
+    height: 28px;
+    border-radius: 100%;
+    filter: grayscale(100%);
+  }
+  

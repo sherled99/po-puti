@@ -72,7 +72,7 @@ export const loginUserFailedAction = (error: string): ILoginUserFailedAction => 
   error,
 });
 
-export const registerUserThunk: AppThunk = (data: ILogin) => async (dispatch: AppDispatch) => {
+export const register: AppThunk = (data: ILogin) => async (dispatch: AppDispatch) => {
   dispatch(registerUserRequestAction());
   try {
     await registerUser(data);
@@ -82,7 +82,7 @@ export const registerUserThunk: AppThunk = (data: ILogin) => async (dispatch: Ap
   }
 };
 
-export const loginUserThunk: AppThunk = (data: ILogin) => async (dispatch: AppDispatch) => {
+export const login: AppThunk = (data: ILogin) => async (dispatch: AppDispatch) => {
   dispatch(loginUserRequestAction());
   try {
     await loginUser(data);

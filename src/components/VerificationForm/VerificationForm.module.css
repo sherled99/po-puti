@@ -1,0 +1,89 @@
+.verificationForm {
+    margin: 0 auto;
+    text-align: center;
+
+    background-color: #fff;
+    border-radius: 40px;
+    padding: 30px;
+    box-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04),
+        0px 16px 24px rgba(0, 0, 0, 0.04),
+        0px 4px 8px rgba(0, 0, 0, 0.04),
+        0px 0px 1px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(95, 95, 99, 0.2);
+    width: 492px;
+}
+
+.emailText {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.emailAddress {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.changeEmail {
+    color: #007bff;
+    font-size: 14px;
+    margin-bottom: 20px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.codeInputGroup {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.codeInput {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+.submitButton {
+    width: 100%;
+    padding: 15px;
+    background-color: #ffc107;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submitButton:hover {
+    background-color: #f9a828;
+}
+
+.agreementText {
+    font-size: 12px;
+    text-align: center;
+    color: #888;
+    margin-top: 20px;
+}
+
+.resendText {
+    color: #888;
+}
+
+.agreementTextLink {
+    color: #007bff;
+    cursor: pointer;
+}
+
+.divNonCode {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}

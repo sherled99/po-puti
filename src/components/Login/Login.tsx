@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUserThunk } from '../../services/actions/user';
+import { login } from '../../services/actions/user';
 import { RootState } from '../../services/types';
 
 const Login: React.FC = () => {
@@ -12,7 +12,7 @@ const Login: React.FC = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(loginUserThunk({ email, password }) as any);
+    dispatch(login({ email, password }) as any);
   };
 
   return (
