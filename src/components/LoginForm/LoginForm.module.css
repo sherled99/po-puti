@@ -35,12 +35,8 @@
   .forgotPassword {
     text-align: center;
     margin-top: 15px;
-  }
-  
-  .forgotPassword a {
+    cursor: pointer;
     color: #007bff;
-    text-decoration: none;
-    font-size: 14px;
   }
   
   .agreementText {

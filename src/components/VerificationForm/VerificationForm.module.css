@@ -78,8 +78,7 @@
 }
 
 .agreementTextLink {
-    color: #007bff;
-    cursor: pointer;
+    text-decoration: none;
 }
 
 .divNonCode {

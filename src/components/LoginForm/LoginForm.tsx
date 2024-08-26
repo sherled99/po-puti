@@ -1,6 +1,7 @@
 import React, {useState } from "react";
 import { login } from '../../services/actions/user';
 import { RootState } from '../../services/types';
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import styles from "./LoginForm.module.css";
 import YandexLogo from "../../img/yandexLogo.png";
@@ -8,6 +9,8 @@ import VkLogo from "../../img/vkLogo.png";
 
 const LoginForm: React.FC = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -16,6 +19,12 @@ const LoginForm: React.FC = () => {
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(login({ email, password }) as any);
+    }
+
+    const handleForgotPassword = () => {
+        navigate(`/resetPassword`, {
+            state: { backgroundLocation: location },
+        });
     }
 
     return (
@@ -41,7 +50,7 @@ const LoginForm: React.FC = () => {
                     Войти
                 </button>
                 <div className={styles.forgotPassword}>
-                    <a href="#">Забыли пароль?</a>
+                    <p onClick={handleForgotPassword}>Забыли пароль?</p>
                 </div>
                 <p className={styles.agreementText}>
                     Нажимая «Войти», вы принимаете

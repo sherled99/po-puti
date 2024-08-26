@@ -5,6 +5,8 @@ import MainPage from "./components/Main/MainPage";
 import { Modal } from "./components/Modal/Modal";
 import Authorization from "./components/Authorization/Authorization";
 import VerificationForm from "./components/VerificationForm/VerificationForm";
+import ResetPasswordForm from "./components/ResetPasswordForm/ResetPasswordForm";
+import ResetForm from "./components/ResetForm/ResetForm";
 
 export default function App() {
   const location = useLocation();
@@ -25,6 +27,8 @@ export default function App() {
           <Route path="/login" element={<Modal children={<Authorization />} />} />
           <Route path="/register" element={<Modal children={<Authorization />} />} />
           <Route path="/verification" element={<Modal children={<VerificationForm />} />} />
+          <Route path="/resetPassword" element={<Modal children={<ResetPasswordForm />} />} />
+          <Route path="/enterResetedPassword" element={<Modal children={<ResetForm />} />} />
         </Routes>
       )}
     </div>
