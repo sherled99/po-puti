@@ -112,10 +112,15 @@
 .stepTwo {
   grid-area: stepTwo;
   background: #EAECEE;
+  position: relative;
 }
 
 .stepTwo .illustration {
-  align-self: flex-end;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin-top: 0;
+  width: clamp(120px, 50%, 180px);
 }
 
 .stepThree {
@@ -125,23 +130,29 @@
 
 .stepThree .illustration {
   align-self: flex-end;
+  width: clamp(180px, 70%, 280px);
 }
 
 .stepFour {
   grid-area: stepFour;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   gap: 32px;
   background: #F7F8F9;
   min-height: 240px;
+  position: relative;
 }
 
 .stepFour .stepContent {
   flex: 1 1 auto;
   align-items: flex-start;
+  padding-right: 280px;
 }
 
 .stepFour .illustration {
+  position: absolute;
+  bottom: 0;
+  right: 32px;
   width: clamp(190px, 32%, 260px);
   margin-top: 0;
 }
@@ -163,7 +174,12 @@
     gap: 24px;
   }
 
+  .stepFour .stepContent {
+    padding-right: 0;
+  }
+
   .stepFour .illustration {
+    position: static;
     align-self: center;
   }
 }
@@ -209,7 +225,26 @@
     width: clamp(140px, 60%, 220px);
   }
 
+  .stepTwo .illustration {
+    position: static;
+    align-self: center;
+    width: clamp(140px, 60%, 220px);
+  }
+
+  .stepThree .illustration {
+    align-self: center;
+    width: clamp(160px, 65%, 240px);
+  }
+
   .stepFour {
     flex-direction: column;
+  }
+
+  .stepFour .stepContent {
+    padding-right: 0;
+  }
+
+  .stepFour .illustration {
+    position: static;
   }
 }
