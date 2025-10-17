@@ -31,13 +31,13 @@ const HowItWorksSection: React.FC = () => {
           </article>
 
           <article className={`${styles.card} ${styles.stepThree}`}>
+            <img src={stepThreeIllustration} alt="Чат сообщение" className={styles.illustration} />
             <div className={styles.stepContent}>
               <h3 className={styles.title}>3. Обговорите детали с попутчиком</h3>
               <p className={styles.description}>
                 Получите контакты, договоритесь напрямую — где, когда и как передать вещь.
               </p>
             </div>
-            <img src={stepThreeIllustration} alt="Чат сообщение" className={styles.illustration} />
           </article>
 
           <article className={`${styles.card} ${styles.stepFour}`}>
