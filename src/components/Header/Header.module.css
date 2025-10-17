@@ -1,8 +1,21 @@
 /* header.css */
-.navbar-brand img {
-    height: 40px;
+
+.logoIcon {
+    font-size: 1.5rem;
 }
 
-.login-icon {
-    font-size: 1.5rem;
+.btnEnter {
+    padding-right: 0.3rem;
+    font-size: 16px;
+}
+
+.header {
+    max-height: 104px;
+}
+
+.btnAdventure{
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 24px;
+    border-radius: 32px;
 }

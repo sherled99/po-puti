@@ -1,7 +1,8 @@
 import React from 'react';
-import './Header.module.css';
+import styles from './Header.module.css';
 import { useNavigate, useLocation } from "react-router-dom";
 import logo from '../../img/logo.png'; 
+import user from '../../img/user.svg';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -16,10 +17,10 @@ const Header: React.FC = () => {
   const openMainPage = () => navigate('/');
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className={`navbar navbar-expand-lg navbar-light bg-light ${styles.header}`}>
       <div className="container">
         <a className="navbar-brand" onClick={openMainPage}>
-          <img src={logo} alt="Logo" />
+          <img src={logo} className={styles.logoIcon} alt="Logo" />
         </a>
         <button
           className="navbar-toggler"
@@ -36,7 +37,7 @@ const Header: React.FC = () => {
           <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <a className="nav-link active" aria-current="page" href="#">
-                О нас
+                Главная
               </a>
             </li>
             <li className="nav-item">
@@ -50,8 +51,10 @@ const Header: React.FC = () => {
               </a>
             </li>
           </ul>
-          <button className="btn btn-warning me-2" onClick={openLogin}>Войти</button>
-          <a href="#" className="login-icon">
+          <button className={`btn btn-warning me-2 ${styles.btnAdventure}`} onClick={openLogin}>Разместить объявление</button>
+          <button className={`btn ${styles.btnEnter}`} onClick={openLogin}>Войти</button>
+          <img src={user}></img>
+          <a href="#" className={styles.loginIcon}>
             <i className="bi bi-person"></i>
           </a>
         </div>

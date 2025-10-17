@@ -7,13 +7,15 @@ import Authorization from "./components/Authorization/Authorization";
 import VerificationForm from "./components/VerificationForm/VerificationForm";
 import ResetPasswordForm from "./components/ResetPasswordForm/ResetPasswordForm";
 import ResetForm from "./components/ResetForm/ResetForm";
+import "./App.css";
+import "@fontsource/inter";
 
 export default function App() {
   const location = useLocation();
   const state = location.state as { backgroundLocation?: Location };
 
   return (
-    <div>
+    <div className="App">
       <Header />
       <Routes location={state?.backgroundLocation || location}>
         <Route path="/" element={<MainPage />} />
