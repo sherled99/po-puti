@@ -1,26 +1,30 @@
 import React from 'react';
 import styles from './BenefitsSection.module.css';
+import clockIcon from '../../../../img/clock.png';
+import thumbsUpIcon from '../../../../img/thumbs-up-icon.png';
+import walletIcon from '../../../../img/wallet-with-money.png';
+import starIcon from '../../../../img/star.png';
 
 const benefits = [
   {
-    title: 'Безопасно',
-    description: 'Проверенные попутчики и верификация профилей обеспечивают безопасность доставок.',
-    icon: 'https://cdn-icons-png.flaticon.com/512/1047/1047710.png',
+    title: 'Быстро',
+    description: 'Больше никаких чатов — ваш попутчик найдётся буквально в пару кликов!',
+    icon: clockIcon,
   },
   {
-    title: 'Быстро',
-    description: 'Посылка отправляется с попутчиком уже завтра — никаких очередей и складов.',
-    icon: 'https://cdn-icons-png.flaticon.com/512/992/992700.png',
+    title: 'Легко',
+    description: 'Вы решаете, что отправлять и кому. Прозрачно, без посредников и лишних движений.',
+    icon: thumbsUpIcon,
   },
   {
     title: 'Выгодно',
-    description: 'Договаривайтесь о стоимости напрямую и платите только за путь посылки.',
-    icon: 'https://cdn-icons-png.flaticon.com/512/1484/1484596.png',
+    description: 'Вы передаете посылку, а попутчик может заработать на своей дороге! Всё по-честному',
+    icon: walletIcon,
   },
   {
-    title: 'Удобно',
-    description: 'Все детали поездки и статусы посылки — в одном личном кабинете.',
-    icon: 'https://cdn-icons-png.flaticon.com/512/992/992651.png',
+    title: 'Уникально',
+    description: 'Подобной платформы ещё нет — мы создаём новый стандарт для удобной доставки!',
+    icon: starIcon,
   },
 ];
 
@@ -35,8 +39,10 @@ const BenefitsSection: React.FC = () => {
               <div className={styles.iconWrapper}>
                 <img src={benefit.icon} alt={benefit.title} className={styles.icon} />
               </div>
-              <h3 className={styles.title}>{benefit.title}</h3>
-              <p className={styles.description}>{benefit.description}</p>
+              <div className={styles.content}>
+                <h3 className={styles.title}>{benefit.title}</h3>
+                <p className={styles.description}>{benefit.description}</p>
+              </div>
             </article>
           ))}
         </div>

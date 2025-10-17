@@ -1,25 +1,23 @@
 import React from 'react';
 import styles from './ValueProposition.module.css';
+import illustration from '../../../../img/value-proposition.png';
 
 const ValueProposition: React.FC = () => {
   return (
     <section className={styles.section}>
       <div className={styles.container}>
-        <div className={styles.content}>
-          <h2 className={styles.title}>Экономьте время и свои деньги!</h2>
-          <p className={styles.text}>
-            Мы соединяем отправителей посылок с попутчиками, которые уже планируют поездку в нужном
-            направлении. Вы договариваетесь о деталях, экономите на доставке и получаете посылку быстрее
-            стандартных служб.
-          </p>
-          <button className={styles.cta}>Найти попутчика</button>
+        <div className={styles.card}>
+          <div className={styles.textContent}>
+            <h2 className={styles.title}>Экономьте время и свои деньги!</h2>
+            <p className={styles.text}>
+              Забудьте про чаты и долгие доставки по почте. Укажите, что и куда отправить, и найдётся человек,
+              который уже едет в нужную сторону и готов помочь.
+            </p>
+            <button type="button" className={styles.cta}>Попробовать сейчас</button>
+          </div>
         </div>
-        <div className={styles.imageWrapper}>
-          <img
-            src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=960&q=80"
-            alt="Двое людей планируют отправку посылки"
-            className={styles.image}
-          />
+        <div className={styles.illustrationWrapper}>
+          <img src={illustration} alt="Попутчики проверяют телефон" className={styles.illustration} />
         </div>
       </div>
     </section>

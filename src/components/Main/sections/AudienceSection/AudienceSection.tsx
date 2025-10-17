@@ -1,24 +1,24 @@
 import React from 'react';
 import styles from './AudienceSection.module.css';
+import info1 from '../../../../img/info 1.png';
+import info2 from '../../../../img/info 2.png';
+import info3 from '../../../../img/info 3.png';
 
 const audiences = [
   {
-    title: 'Отправители',
-    description:
-      'Доставьте важные документы, подарки или покупки через попутчиков, которые уже летят в нужный город.',
-    image: 'https://images.unsplash.com/photo-1523475472560-d2df97ec485c?auto=format&fit=crop&w=900&q=80',
+    title: 'Отправителям',
+    description: 'Нужно срочно отправить посылку? Найдите попутчика за пару минут!',
+    image: info1,
   },
   {
-    title: 'Попутчики',
-    description:
-      'Возьмите посылку с собой в поездку, чтобы окупить часть пути и сделать доброе дело.',
-    image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80',
+    title: 'Попутчикам',
+    description: 'Куда-то едете? Помогайте доставить вещи и получайте вознаграждение!',
+    image: info2,
   },
   {
-    title: 'Для всей вашей семьи',
-    description:
-      'Делитесь теплотой и заботой с близкими, даже если вы далеко. Мы поможем доставить радость.',
-    image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80',
+    title: 'Для тех, кто ценит время',
+    description: 'Радуйте близких — отправляйте и получайте быстрее, чем по почте',
+    image: info3,
   },
 ];
 
