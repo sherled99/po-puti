@@ -7,9 +7,8 @@ import 'react-date-range/dist/theme/default.css';
 import { format } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
 
-const cities = ['Москва', 'Санкт-Петербург', 'Минск', 'Киев'];
-const packageTypes = ['Конверт', 'Посылка XS', 'Посылка S', 'Посылка M', 'Посылка L'];
-
+const cities = ['Москва', 'Санкт-Петербург', 'Новосибирск', 'Екатеринбург', 'Казань'];
+const packageTypes = ['Документы', 'Посылка XS', 'Посылка S', 'Посылка M', 'Посылка L'];
 
 interface RangeItem {
   startDate: Date;
@@ -25,12 +24,11 @@ function formatRange(start: Date, end: Date) {
 
 const HeroSection: React.FC = () => {
   const [range, setRange] = useState<RangeItem[]>([
-    { startDate: new Date(), endDate: new Date(), key: 'selection' }
+    { startDate: new Date(), endDate: new Date(), key: 'selection' },
   ]);
   const [showCalendar, setShowCalendar] = useState(false);
   const calendarRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown on outside click
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) {
@@ -50,7 +48,6 @@ const HeroSection: React.FC = () => {
   const handleDateChange = (item: { selection: RangeItem }) => {
     const updated = item.selection;
     setRange([updated]);
-    // close after end date selected
     if (updated.endDate > updated.startDate) {
       setShowCalendar(false);
     }
@@ -64,22 +61,34 @@ const HeroSection: React.FC = () => {
         <div className={styles.formWrapper}>
           <div className={styles.tabs}>
             <button className={`${styles.tab} ${styles.active}`}>Отправить посылку</button>
-            <button className={styles.tab}>Отвезти посылку</button>
+            <button className={styles.tab}>Стать попутчиком</button>
           </div>
-          <form className={styles.searchForm} onSubmit={e => e.preventDefault()}>
+          <form className={styles.searchForm} onSubmit={(e) => e.preventDefault()}>
             <select className={styles.input} defaultValue="">
-              <option value="" disabled>Откуда</option>
-              {cities.map(city => <option key={city} value={city}>{city}</option>)}
+              <option value="" disabled>
+                Откуда
+              </option>
+              {cities.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
             </select>
             <select className={styles.input} defaultValue="">
-              <option value="" disabled>Куда</option>
-              {cities.map(city => <option key={city} value={city}>{city}</option>)}
+              <option value="" disabled>
+                Куда
+              </option>
+              {cities.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
             </select>
             <div className={styles.datePickerWrapper} ref={calendarRef}>
               <button
                 type="button"
                 className={styles.datePicker}
-                onClick={() => setShowCalendar(prev => !prev)}
+                onClick={() => setShowCalendar((prev) => !prev)}
               >
                 {formatRange(range[0].startDate, range[0].endDate)}
               </button>
@@ -98,10 +107,18 @@ const HeroSection: React.FC = () => {
               )}
             </div>
             <select className={styles.select} defaultValue="">
-              <option value="" disabled>Выберите тип</option>
-              {packageTypes.map(type => <option key={type} value={type}>{type}</option>)}
+              <option value="" disabled>
+                Тип посылки
+              </option>
+              {packageTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
             </select>
-            <button type="submit" className={styles.searchBtn}>Найти попутчика</button>
+            <button type="submit" className={styles.searchBtn}>
+              Найти попутчика
+            </button>
           </form>
         </div>
       </div>
