@@ -14,47 +14,75 @@
   text-align: center;
   font-size: 2rem;
   font-weight: 700;
-  color: #222b40;
+  color: #1f2738;
 }
 
-.grid {
+.layout {
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.9fr);
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    'text topImage'
+    'photo highlight';
   gap: 24px;
-}
-
-.cardLarge {
-  grid-column: span 2;
-  background-color: #ffffff;
-  border-radius: 28px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 28px 60px rgba(34, 43, 64, 0.08);
 }
 
 .card {
   background-color: #ffffff;
-  border-radius: 28px;
+  border-radius: 32px;
   box-shadow: 0 24px 50px rgba(34, 43, 64, 0.08);
   overflow: hidden;
+}
+
+.textCard {
+  grid-area: text;
+  padding: 36px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  justify-content: center;
+  background: linear-gradient(180deg, #ffffff 0%, #fafbff 100%);
+}
+
+.topImageCard {
+  grid-area: topImage;
+  padding: 0;
+  display: block;
+  overflow: hidden;
+}
+
+.bottomImageCard {
+  grid-area: photo;
+  padding: 0;
+  display: block;
+  overflow: hidden;
+}
+
+.highlightCard {
+  grid-area: highlight;
+  padding: 36px 96px 36px 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(180deg, #ffffff 0%, #fff9ec 100%);
 }
 
-.body {
-  padding: 32px 32px 40px;
+.highlightBody {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  max-width: 320px;
 }
 
 .title {
   margin: 0;
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #222b40;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2738;
   line-height: 1.4;
 }
 
@@ -67,45 +95,102 @@
 
 .image {
   width: 100%;
-  height: 240px;
-  object-fit: cover;
-}
-
-.imageShield {
-  width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
-.cardContent {
-  padding: 32px 32px 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+.topImageCard {
+  height: 220px;
 }
 
-.linkButton {
+.bottomImageCard {
+  height: 330px;
+}
+
+.button {
   align-self: flex-start;
-  padding: 12px 24px;
-  border-radius: 24px;
+  padding: 12px 28px;
+  border-radius: 999px;
   border: none;
-  background-color: rgba(255, 184, 28, 0.15);
-  color: #d18f00;
+  background: linear-gradient(135deg, #ffc947 0%, #ffac1f 100%);
+  color: #1f2738;
   font-weight: 600;
+  font-size: 0.98rem;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  box-shadow: 0 14px 32px rgba(255, 184, 28, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.linkButton:hover {
-  background-color: rgba(255, 184, 28, 0.25);
+.button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 40px rgba(255, 184, 28, 0.45);
 }
 
-@media (max-width: 992px) {
-  .grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+.shield {
+  position: absolute;
+  right: -180px;
+  top: 36%;
+  transform: translateY(-45%);
+  width: 364px;
+  height: auto;
+  z-index: 2;
+  pointer-events: none;
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      'text topImage'
+      'photo highlight';
   }
 
-  .cardLarge {
-    grid-column: span 1;
+  .shield {
+    right: -24px;
+    width: 140px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 80px 16px 0;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'text'
+      'topImage'
+      'photo'
+      'highlight';
+  }
+
+  .highlightBody {
+    max-width: none;
+    align-items: center;
+    text-align: center;
+  }
+
+  .textCard,
+  .highlightCard {
+    padding: 32px 28px;
+  }
+
+  .topImageCard,
+  .bottomImageCard {
+    height: auto;
+  }
+
+  .button {
+    align-self: center;
+  }
+
+  .shield {
+    position: static;
+    transform: none;
+    align-self: center;
+    margin: 16px auto 0;
+    width: 120px;
   }
 }

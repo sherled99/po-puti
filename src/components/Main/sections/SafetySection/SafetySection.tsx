@@ -1,43 +1,43 @@
 import React from 'react';
 import styles from './SafetySection.module.css';
+import introImage from '../../../../img/SafetySection/Frame 2131329070.png';
+import handshakeImage from '../../../../img/SafetySection/Frame 2131329071.png';
+import shieldImage from '../../../../img/SafetySection/safety 1.png';
 
 const SafetySection: React.FC = () => {
   return (
     <section className={styles.section}>
       <div className={styles.container}>
         <h2 className={styles.heading}>Безопасность и ответственность</h2>
-        <div className={styles.grid}>
-          <article className={styles.cardLarge}>
-            <img
-              src="https://images.unsplash.com/photo-1587560699334-cc4ff634909a?auto=format&fit=crop&w=900&q=80"
-              alt="Передача посылки"
-              className={styles.image}
-            />
-            <div className={styles.body}>
-              <h3 className={styles.title}>Мы — просто крутая платформа, которая помогает находить тех, кому можно доверить посылку.</h3>
+        <div className={styles.layout}>
+          <article className={`${styles.card} ${styles.textCard}`}>
+            <h3 className={styles.title}>Мы — просто крутая платформа, которая помогает находить тех, кому по пути!</h3>
+            <p className={styles.text}>
+              Отправляйте и принимайте посылки только на своё усмотрение, вся ответственность за передачу и доставку
+              полностью лежит на отправителе и попутчике.
+            </p>
+          </article>
+
+          <article className={`${styles.card} ${styles.topImageCard}`}>
+            <img src={handshakeImage} alt="Встреча отправителя с попутчиком" className={styles.image} />
+          </article>
+
+          <article className={`${styles.card} ${styles.bottomImageCard}`}>
+            <img src={introImage} alt="Передача посылки" className={styles.image} />
+          </article>
+
+          <article className={`${styles.card} ${styles.highlightCard}`}>
+            <div className={styles.highlightBody}>
+              <h3 className={styles.title}>Но нам очень важна ваша безопасность</h3>
               <p className={styles.text}>
-                Каждого попутчика мы просим подтвердить личность. Оставляйте отзывы, оценивайте поездки и выбирайте
-                только тех, кому доверяете посылку.
+                Мы подготовили гайд, который поможет вам защититься от мошенников, чтобы ваши отправки и доставки прошли
+                максимально спокойно и надёжно.
               </p>
+              <button type="button" className={styles.button}>Читать гайд</button>
             </div>
           </article>
-          <article className={styles.card}>
-            <div className={styles.cardContent}>
-              <h3 className={styles.title}>Но мы очень серьёзно относимся к безопасности.</h3>
-              <p className={styles.text}>
-                У нас работает служба поддержки, баним нарушителей и предоставляем дополнительные рекомендации по
-                упаковке и передаче посылок.
-              </p>
-              <button className={styles.linkButton}>Узнать правила</button>
-            </div>
-          </article>
-          <article className={styles.card}>
-            <img
-              src="https://images.unsplash.com/photo-1529078155058-5d716f45d604?auto=format&fit=crop&w=800&q=80"
-              alt="Попутчик с посылкой"
-              className={styles.imageShield}
-            />
-          </article>
+
+          <img src={shieldImage} alt="Золотой щит" className={styles.shield} />
         </div>
       </div>
     </section>
