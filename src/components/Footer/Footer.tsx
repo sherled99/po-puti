@@ -1,41 +1,62 @@
 import React from 'react';
 import styles from './Footer.module.css';
 import logo from '../../img/logo.png';
+import vkIcon from '../../img/vkLogo.png';
+import youtubeIcon from '../../img/yandexLogo.png';
 
 const Footer: React.FC = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
-        <div className={styles.brand}>
-          <img src={logo} alt="Попути" className={styles.logo} />
-          <p className={styles.tagline}>Сервис для поиска попутчика вашей посылке.</p>
-        </div>
-        <div className={styles.linksColumn}>
-          <h4 className={styles.heading}>Навигация</h4>
-          <ul className={styles.list}>
-            <li><a href="#advantages">Преимущества</a></li>
-            <li><a href="#for-whom">Для кого</a></li>
-            <li><a href="#how-to">Как отправить</a></li>
-            <li><a href="#faq">FAQ</a></li>
+        <nav className={styles.column}>
+          <ul className={styles.linkList}>
+            <li><a href="#">О компании</a></li>
+            <li><a href="#">Для отправителей</a></li>
+            <li><a href="#">Для попутчиков</a></li>
+            <li><a href="#">Гайд по безопасности</a></li>
+            <li><a href="#">Для рекламы</a></li>
+            <li><a href="#">Политика конфиденциальности</a></li>
           </ul>
+        </nav>
+
+        <nav className={styles.column}>
+          <ul className={styles.linkList}>
+            <li><a href="#">Войти</a></li>
+            <li><a href="#">Зарегистрироваться</a></li>
+            <li><a href="#">Разместить объявление</a></li>
+          </ul>
+        </nav>
+
+        <div className={styles.column}>
+          <a href="mailto:poputi@gmail.com" className={styles.contact}>poputi@gmail.com</a>
+          <a href="tel:+78129201754" className={styles.contact}>+7 (812) 920-17-54</a>
+          <p className={styles.address}>
+            г. Санкт-Петербург, ул. Лифляндская, д. 3, Лит. О, помещение 1-Н, ком., №23
+          </p>
+          <div className={styles.socials}>
+            <a href="#" aria-label="YouTube">
+              <img src={youtubeIcon} alt="" />
+            </a>
+            <a href="#" aria-label="VK">
+              <img src={vkIcon} alt="" />
+            </a>
+          </div>
         </div>
-        <div className={styles.contacts}>
-          <h4 className={styles.heading}>Контакты</h4>
-          <a href="mailto:poputi@gmail.com" className={styles.link}>poputi@gmail.com</a>
-          <a href="tel:+78129201564" className={styles.link}>+7 (812) 920-15-64</a>
-          <p className={styles.address}>Санкт-Петербург, Невский проспект, 12</p>
-        </div>
-        <div className={styles.actions}>
-          <button type="button" className={styles.button}>Найти попутчика</button>
-          <span className={styles.notice}>Мы на связи ежедневно с 09:00 до 21:00</span>
+
+        <div className={styles.column}>
+          <button type="button" className={styles.primaryAction}>Задать свой вопрос</button>
+          <button type="button" className={styles.secondaryAction}>Связаться в Telegram</button>
         </div>
       </div>
+
+      <div className={styles.separator} />
+
       <div className={styles.bottom}>
-        <span>© {new Date().getFullYear()} Попути. Все права защищены.</span>
-        <div className={styles.bottomLinks}>
-          <a href="/privacy">Политика конфиденциальности</a>
-          <a href="/terms">Пользовательское соглашение</a>
+        <div className={styles.bottomBrand}>
+          <img src={logo} alt="Попути" className={styles.bottomLogo} />
+          <span className={styles.bottomTitle}>Попути</span>
         </div>
+        <span className={styles.bottomNote}>ООО “Медицинские технологии будущего”</span>
       </div>
     </footer>
   );
