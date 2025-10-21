@@ -1,0 +1,145 @@
+.page {
+  background: #f6f7fb;
+  min-height: 100vh;
+}
+
+.heroArea {
+  padding: 120px 0 48px;
+  background: linear-gradient(180deg, #f7f9ff 0%, #f6f7fb 100%);
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: #7b869d;
+  margin-bottom: 12px;
+}
+
+.breadcrumbCurrent {
+  color: #1f2738;
+  font-weight: 600;
+}
+
+.pageTitle {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #1f2738;
+  margin: 0 0 32px;
+}
+
+.searchFormWrapper {
+  width: 100%;
+}
+
+.resultsSection {
+  padding: 48px 0 80px;
+}
+
+.resultsHeader {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.resultsTitle {
+  margin: 0;
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #1f2738;
+}
+
+.criteria {
+  margin: 8px 0 0;
+  font-size: 0.98rem;
+  color: #56617a;
+}
+
+.sort {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.95rem;
+  color: #56617a;
+}
+
+.sortSelect {
+  padding: 10px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(31, 39, 56, 0.12);
+  background: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1f2738;
+  cursor: pointer;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pageButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: #ffffff;
+  color: #1f2738;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(31, 39, 56, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pageButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgba(31, 39, 56, 0.18);
+}
+
+.activePage {
+  background: linear-gradient(135deg, #ffc947, #ffac1f);
+  color: #1f2738;
+}
+
+@media (max-width: 992px) {
+  .pageTitle {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroArea {
+    padding: 100px 0 36px;
+  }
+
+  .resultsHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sort {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
