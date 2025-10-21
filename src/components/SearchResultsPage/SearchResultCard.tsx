@@ -23,34 +23,48 @@ interface SearchResultCardProps {
 
 const SearchResultCard: React.FC<SearchResultCardProps> = ({ result }) => {
   const initials = React.useMemo(() => {
-    const [firstWord] = result.name.split(" ");
-    return firstWord ? firstWord.charAt(0).toUpperCase() : "?";
+    const parts = result.name.trim().split(" ");
+    if (!parts.length) {
+      return "?";
+    }
+    if (parts.length === 1) {
+      return parts[0].slice(0, 2).toUpperCase();
+    }
+    return `${parts[0].charAt(0)}${parts[1].charAt(0)}`.toUpperCase();
   }, [result.name]);
+
+  const ratingDisplay = React.useMemo(() => {
+    return result.rating.toFixed(1).replace(".", ",");
+  }, [result.rating]);
 
   return (
     <article className={styles.card}>
       <div className={styles.main}>
-        <div className={styles.avatarWrapper} aria-hidden={!result.avatar}>
+        <div className={styles.avatarWrapper}>
           {result.avatar ? (
-            <img src={result.avatar} alt={result.name} className={styles.avatarImage} />
+            <img className={styles.avatarImage} src={result.avatar} alt={result.name} />
           ) : (
-            <span className={styles.avatarFallback}>{initials}</span>
+            <span className={styles.avatarFallback} aria-hidden>
+              {initials}
+            </span>
           )}
         </div>
         <div className={styles.details}>
           <h3 className={styles.name}>{result.name}</h3>
-          <ul className={styles.meta}>
+          <ul className={styles.meta} aria-label="Ключевые параметры">
             <li className={styles.metaItem}>
-              <span className={styles.metaLabel}>Маршрут:</span>
-              <span>{`${result.fromCity} → ${result.toCity}`}</span>
+              <span className={`${styles.metaIcon} ${styles.iconRoute}`} aria-hidden />
+              <span className={styles.metaValue}>{`${result.fromCity} — ${result.toCity}`}</span>
             </li>
             <li className={styles.metaItem}>
-              <span className={styles.metaLabel}>Дата отправки:</span>
-              <span>{result.travelDates}</span>
+              <span className={`${styles.metaIcon} ${styles.iconCalendar}`} aria-hidden />
+              <span className={styles.metaValue}>Дата отъезда: {result.travelDates}</span>
             </li>
             <li className={styles.metaItem}>
-              <span className={styles.metaLabel}>Размер посылки:</span>
-              <span>{result.packageSizes.join(", ")}</span>
+              <span className={`${styles.metaIcon} ${styles.iconPackage}`} aria-hidden />
+              <span className={styles.metaValue}>
+                Размер посылки: {result.packageSizes.join(", ")}
+              </span>
             </li>
           </ul>
           <p className={styles.description}>{result.description}</p>
@@ -59,18 +73,24 @@ const SearchResultCard: React.FC<SearchResultCardProps> = ({ result }) => {
       </div>
       <div className={styles.aside}>
         <span className={styles.reward}>{result.reward}</span>
-        <div className={styles.ratingBlock}>
-          <span className={styles.ratingValue}>Рейтинг {result.rating.toFixed(1)}</span>
-          <span className={styles.ratingMeta}>Отзывы ({result.reviews})</span>
+        <div className={styles.ratingRow}>
+          <span className={styles.ratingLabel}>Рейтинг {ratingDisplay}</span>
+          <button type="button" className={styles.reviewsLink}>
+            Отзывы ({result.reviews})
+          </button>
         </div>
-        <span
-          className={[
-            styles.verification,
-            result.verified ? styles.verified : styles.notVerified,
-          ].join(" ")}
-        >
-          {result.verified ? "Аккаунт подтвержден" : "Аккаунт не подтвержден"}
-        </span>
+        <div className={styles.verificationRow}>
+          <span
+            className={`${styles.statusIcon} ${
+              result.verified ? styles.statusIconSuccess : styles.statusIconWarn
+            }`}
+            aria-hidden
+          />
+          <span className={styles.verificationText}>
+            {result.verified ? "Аккаунт подтвержден" : "Аккаунт не подтвержден"}
+          </span>
+          <span className={styles.infoIcon} aria-hidden />
+        </div>
         <button type="button" className={styles.actionBtn}>
           Отправить запрос
         </button>

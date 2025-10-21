@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
@@ -31,7 +30,7 @@ export interface SearchFormProps {
   onSearch?: (values: SearchFormValues) => void;
 }
 
-const cities = ["Баку", "Белград", "Ереван", "Санкт-Петербург", "Стамбул"];
+const cities = ["Баку", "Белград", "Ереван", "Санкт-Петербург", "Тбилиси"];
 const packageTypes = ["Документы", "Посылка XS", "Посылка S", "Посылка M", "Посылка L"];
 
 const tabs: Array<{ value: TripTab; label: string }> = [
@@ -51,8 +50,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
   initialValues,
   onSearch,
 }) => {
-  const navigate = useNavigate();
-  const location = useLocation();
   const [tripType, setTripType] = useState<TripTab>(initialValues?.tripType ?? "send");
   const [fromCity, setFromCity] = useState<string>(initialValues?.fromCity ?? "Баку");
   const [toCity, setToCity] = useState<string>(initialValues?.toCity ?? "Белград");
@@ -96,6 +93,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
     if (!initialValues) {
       return;
     }
+
     if (initialValues.tripType) {
       setTripType(initialValues.tripType);
     }
@@ -124,6 +122,9 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const currentRange = range[0];
+    if (!currentRange) {
+      return;
+    }
     onSearch?.({
       tripType,
       fromCity,
@@ -133,9 +134,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
       dateTo: currentRange.endDate,
     });
     setShowCalendar(false);
-    if (location.pathname !== "/search") {
-      navigate("/search");
-    }
   };
 
   const wrapperClassName = [
