@@ -8,6 +8,12 @@
   border: 1px solid #e5e9f2;
   border-radius: 36px;
   box-shadow: 0 18px 40px rgba(31, 39, 56, 0.06);
+  cursor: pointer;
+}
+
+.card:focus-visible {
+  outline: 3px solid rgba(52, 103, 255, 0.4);
+  outline-offset: 4px;
 }
 
 .main {

@@ -1,8 +1,11 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './Header.module.css';
 import logo from '../../img/logo.png';
 import userIcon from '../../img/user.svg';
+import { AppDispatch, RootState } from '../../services/types';
+import { logout } from '../../services/actions/user';
 
 const navLinks = [
   { label: 'Преимущества', href: '#advantages' },
@@ -14,9 +17,27 @@ const navLinks = [
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch<AppDispatch>();
+  const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
 
   const openAuthModal = () => {
+    if (isAuthenticated) {
+      return;
+    }
     navigate('/login', { state: { backgroundLocation: location } });
+  };
+
+  const handlePrimaryAction = () => {
+    if (isAuthenticated) {
+      navigate('/search');
+      return;
+    }
+    openAuthModal();
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/', { replace: true });
   };
 
   const goHome = () => navigate('/');
@@ -35,12 +56,18 @@ const Header: React.FC = () => {
           ))}
         </nav>
         <div className={styles.actions}>
-          <button className={styles.primaryAction} onClick={openAuthModal}>
+          <button className={styles.primaryAction} onClick={handlePrimaryAction}>
             Найти попутчика
           </button>
-          <button className={styles.secondaryAction} onClick={openAuthModal}>
-            Войти
-          </button>
+          {isAuthenticated ? (
+            <button className={styles.secondaryAction} onClick={handleLogout}>
+              Выйти
+            </button>
+          ) : (
+            <button className={styles.secondaryAction} onClick={openAuthModal}>
+              Войти
+            </button>
+          )}
           <button className={styles.profileButton} onClick={openAuthModal} aria-label="Профиль">
             <img src={userIcon} alt="" />
           </button>

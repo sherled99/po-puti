@@ -7,6 +7,18 @@ export interface IOptions {
     "Access-Control-Allow-Headers"?: string;
   };
   body?: string;
+  credentials?: RequestCredentials;
+}
+
+export interface IAuthResponse {
+  email: string;
+  emailConfirmed: boolean;
+  token: string | null;
+}
+
+export interface IVerifyEmailRequest {
+  email: string;
+  code: string;
 }
 
 export interface ICustomResponse {

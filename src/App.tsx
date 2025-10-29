@@ -3,6 +3,7 @@ import Gender from "./components/Gender/Gender";
 import Header from "./components/Header/Header";
 import MainPage from "./components/Main/MainPage";
 import SearchResultsPage from "./components/SearchResultsPage/SearchResultsPage";
+import SearchResultDetailsPage from "./components/SearchResultsPage/SearchResultDetailsPage";
 import { Modal } from "./components/Modal/Modal";
 import Authorization from "./components/Authorization/Authorization";
 import VerificationForm from "./components/VerificationForm/VerificationForm";
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/allGender" element={<Gender />} />
         <Route path="/search" element={<SearchResultsPage />} />
+        <Route path="/search/:id" element={<SearchResultDetailsPage />} />
         <Route path="/login" element={<MainPage/>} />
         <Route path="/register" element={<MainPage/>} />
         <Route path="/verification" element={<MainPage/>} />

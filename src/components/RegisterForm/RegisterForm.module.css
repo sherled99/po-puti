@@ -31,6 +31,11 @@
   .submitButton:hover {
     background-color: #f9a828;
   }
+
+  .submitButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
   
   .forgotPassword {
     text-align: center;
@@ -92,5 +97,12 @@
     height: 28px;
     border-radius: 100%;
     filter: grayscale(100%);
+  }
+
+  .errorMessage {
+    color: #d9534f;
+    font-size: 14px;
+    margin: -10px 0 12px;
+    text-align: center;
   }
   

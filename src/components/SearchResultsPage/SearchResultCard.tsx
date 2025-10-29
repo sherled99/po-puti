@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./SearchResultCard.module.css";
 
 export interface SearchResult {
@@ -22,6 +23,7 @@ interface SearchResultCardProps {
 }
 
 const SearchResultCard: React.FC<SearchResultCardProps> = ({ result }) => {
+  const navigate = useNavigate();
   const initials = React.useMemo(() => {
     const parts = result.name.trim().split(" ");
     if (!parts.length) {
@@ -37,8 +39,26 @@ const SearchResultCard: React.FC<SearchResultCardProps> = ({ result }) => {
     return result.rating.toFixed(1).replace(".", ",");
   }, [result.rating]);
 
+  const handleOpenDetails = () => {
+    navigate(`/search/${result.id}`);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      handleOpenDetails();
+    }
+  };
+
   return (
-    <article className={styles.card}>
+    <article
+      className={styles.card}
+      onClick={handleOpenDetails}
+      onKeyDown={handleKeyDown}
+      role="button"
+      tabIndex={0}
+      aria-label={`Открыть подробную информацию о попутчике ${result.name}`}
+    >
       <div className={styles.main}>
         <div className={styles.avatarWrapper}>
           {result.avatar ? (
@@ -91,7 +111,11 @@ const SearchResultCard: React.FC<SearchResultCardProps> = ({ result }) => {
           </span>
           <span className={styles.infoIcon} aria-hidden />
         </div>
-        <button type="button" className={styles.actionBtn}>
+        <button
+          type="button"
+          className={styles.actionBtn}
+          onClick={(event) => event.stopPropagation()}
+        >
           Отправить запрос
         </button>
       </div>
