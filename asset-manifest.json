@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/po-puti/static/css/main.76fd2a26.css",
-    "main.js": "/po-puti/static/js/main.a4963d4e.js",
+    "main.css": "/po-puti/static/css/main.fa685465.css",
+    "main.js": "/po-puti/static/js/main.b226c9c4.js",
     "static/js/453.e3b15945.chunk.js": "/po-puti/static/js/453.e3b15945.chunk.js",
     "static/media/value-proposition.png": "/po-puti/static/media/value-proposition.987ed5f405245082e7b1.png",
     "static/media/info 2.png": "/po-puti/static/media/info 2.0be8428a60226aaecc57.png",
@@ -34,12 +34,12 @@
     "static/media/inter-vietnamese-400-normal.woff2": "/po-puti/static/media/inter-vietnamese-400-normal.44c9df135eec470b0ab6.woff2",
     "index.html": "/po-puti/index.html",
     "static/media/user.svg": "/po-puti/static/media/user.f0211cf5e1836507280e2f6e4ec4472f.svg",
-    "main.76fd2a26.css.map": "/po-puti/static/css/main.76fd2a26.css.map",
-    "main.a4963d4e.js.map": "/po-puti/static/js/main.a4963d4e.js.map",
+    "main.fa685465.css.map": "/po-puti/static/css/main.fa685465.css.map",
+    "main.b226c9c4.js.map": "/po-puti/static/js/main.b226c9c4.js.map",
     "453.e3b15945.chunk.js.map": "/po-puti/static/js/453.e3b15945.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.76fd2a26.css",
-    "static/js/main.a4963d4e.js"
+    "static/css/main.fa685465.css",
+    "static/js/main.b226c9c4.js"
   ]
 }
