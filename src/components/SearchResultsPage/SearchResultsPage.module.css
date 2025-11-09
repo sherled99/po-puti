@@ -93,6 +93,22 @@
   margin-bottom: 40px;
 }
 
+.stateMessage {
+  padding: 28px;
+  border-radius: 28px;
+  background: #ffffff;
+  border: 1px dashed rgba(52, 103, 255, 0.25);
+  color: #3c455a;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.stateError {
+  border-color: rgba(221, 91, 62, 0.35);
+  color: #dd5b3e;
+}
+
 .pagination {
   display: flex;
   justify-content: center;

@@ -5,6 +5,8 @@ import "react-date-range/dist/theme/default.css";
 import { format } from "date-fns";
 import ruLocale from "date-fns/locale/ru";
 import styles from "./SearchForm.module.css";
+import { getPackageTypes } from "../../utils/api";
+import type { IPackageType } from "../../services/types/data";
 
 export type TripTab = "send" | "receive";
 
@@ -20,7 +22,8 @@ export interface SearchFormValues {
   toCity: string;
   dateFrom: Date;
   dateTo: Date;
-  packageSize: string;
+  packageId: string;
+  packageName: string;
 }
 
 export interface SearchFormProps {
@@ -30,8 +33,7 @@ export interface SearchFormProps {
   onSearch?: (values: SearchFormValues) => void;
 }
 
-const cities = ["Баку", "Белград", "Ереван", "Санкт-Петербург", "Тбилиси"];
-const packageTypes = ["Документы", "Посылка XS", "Посылка S", "Посылка M", "Посылка L"];
+const cities = ["Баку", "Белград", "Ереван", "Санкт-Петербург", "Тбилиси", "Москва"];
 
 const tabs: Array<{ value: TripTab; label: string }> = [
   { value: "send", label: "Отправить посылку" },
@@ -53,7 +55,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const [tripType, setTripType] = useState<TripTab>(initialValues?.tripType ?? "send");
   const [fromCity, setFromCity] = useState<string>(initialValues?.fromCity ?? "Баку");
   const [toCity, setToCity] = useState<string>(initialValues?.toCity ?? "Белград");
-  const [packageSize, setPackageSize] = useState<string>(initialValues?.packageSize ?? "Посылка XS");
+  const [selectedPackageId, setSelectedPackageId] = useState<string>(initialValues?.packageId ?? "");
+  const [packageOptions, setPackageOptions] = useState<IPackageType[]>([]);
   const [range, setRange] = useState<RangeItem[]>(() => {
     const start = initialValues?.dateFrom ?? new Date();
     const maybeEnd = initialValues?.dateTo ?? start;
@@ -62,6 +65,39 @@ const SearchForm: React.FC<SearchFormProps> = ({
   });
   const [showCalendar, setShowCalendar] = useState(false);
   const calendarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadPackages = async () => {
+      try {
+        const packages = await getPackageTypes();
+        if (cancelled) {
+          return;
+        }
+        setPackageOptions(packages);
+        setSelectedPackageId((current) => {
+          if (current && packages.some((option) => option.id === current)) {
+            return current;
+          }
+          if (initialValues?.packageId && packages.some((option) => option.id === initialValues.packageId)) {
+            return initialValues.packageId;
+          }
+          return packages[0]?.id ?? "";
+        });
+      } catch (error) {
+        if (!cancelled) {
+          console.error("Failed to load package types", error);
+        }
+      }
+    };
+
+    loadPackages();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [initialValues]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -103,8 +139,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
     if (initialValues.toCity) {
       setToCity(initialValues.toCity);
     }
-    if (initialValues.packageSize) {
-      setPackageSize(initialValues.packageSize);
+    if (initialValues.packageId) {
+      setSelectedPackageId(initialValues.packageId);
     }
     if (initialValues.dateFrom || initialValues.dateTo) {
       setRange((prev) => {
@@ -125,14 +161,21 @@ const SearchForm: React.FC<SearchFormProps> = ({
     if (!currentRange) {
       return;
     }
+    const matchedPackage =
+      packageOptions.find((option) => option.id === selectedPackageId) || packageOptions[0];
+    if (!matchedPackage) {
+      return;
+    }
     onSearch?.({
       tripType,
       fromCity,
       toCity,
-      packageSize,
+      packageId: matchedPackage.id,
+      packageName: matchedPackage.name,
       dateFrom: currentRange.startDate,
       dateTo: currentRange.endDate,
     });
+    setSelectedPackageId(matchedPackage.id);
     setShowCalendar(false);
   };
 
@@ -217,15 +260,16 @@ const SearchForm: React.FC<SearchFormProps> = ({
         </div>
         <select
           className={[styles.field, styles.select, fieldVariantClass].join(" ")}
-          value={packageSize}
-          onChange={(event) => setPackageSize(event.target.value)}
+          value={selectedPackageId}
+          onChange={(event) => setSelectedPackageId(event.target.value)}
+          disabled={packageOptions.length === 0}
         >
           <option value="" disabled>
             Размер посылки
           </option>
-          {packageTypes.map((type) => (
-            <option key={type} value={type}>
-              {type}
+          {packageOptions.map((option) => (
+            <option key={option.id} value={option.id}>
+              {option.name}
             </option>
           ))}
         </select>

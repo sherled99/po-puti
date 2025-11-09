@@ -127,71 +127,42 @@
   min-width: 240px;
 }
 
-.reward {
-  font-weight: 700;
-  font-size: 1rem;
-  color: #1f2738;
-  text-align: left;
-}
 
-.ratingRow {
-  display: flex;
+.tag {
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font-size: 0.95rem;
-  color: #1f2738;
-}
-
-.ratingLabel {
-  font-weight: 500;
-}
-
-.reviewsLink {
-  padding: 0;
-  border: none;
-  background: none;
-  font-size: 0.95rem;
-  font-weight: 500;
+  justify-content: center;
+  padding: 8px 18px;
+  border-radius: 20px;
+  background: rgba(52, 103, 255, 0.12);
   color: #3467ff;
-  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
-.reviewsLink:hover {
-  color: #204ad9;
-  text-decoration: underline;
-}
-
-.verificationRow {
+.statusRow {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 0.95rem;
-}
-
-.statusIcon {
-  width: 20px;
-  height: 20px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-
-.statusIconSuccess {
-  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='10' fill='%23E4F6EA'/%3E%3Cpath fill='%2326A269' d='M8.61 13.776 5.58 10.64l1.163-1.138 1.867 1.913 4.586-4.302L14.5 8.25 8.61 13.776Z'/%3E%3C/svg%3E");
-}
-
-.statusIconWarn {
-  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='10' fill='%23FFEFE9'/%3E%3Cpath fill='%23DD5B3E' d='M9.25 5h1.5v5.5h-1.5V5Zm0 7h1.5v1.5h-1.5V12Z'/%3E%3C/svg%3E");
-}
-
-.verificationText {
   color: #1f2738;
 }
 
-.infoIcon {
-  width: 18px;
-  height: 18px;
-  background-image: url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 18 18' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='9' cy='9' r='9' fill='%23E6ECF7'/%3E%3Cpath fill='%2362708C' d='M8.438 13.5v-4.25h1.312V13.5H8.438Zm0-5.688V5.5h1.312v2.312H8.438Z'/%3E%3C/svg%3E");
+.statusDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #26a269;
+}
+
+.statusText {
+  font-weight: 500;
+}
+
+.createdAt {
+  margin: 8px 0 0;
+  font-size: 0.88rem;
+  color: #98a1b3;
 }
 
 .actionBtn {

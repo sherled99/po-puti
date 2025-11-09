@@ -1,4 +1,13 @@
-import { IOptions, IGender, ILogin, IAuthResponse, IVerifyEmailRequest } from '../services/types/data';
+import {
+  IOptions,
+  IGender,
+  ILogin,
+  IAuthResponse,
+  IVerifyEmailRequest,
+  IPackageType,
+  ISearchCard,
+  ISearchCardsParams,
+} from '../services/types/data';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -42,6 +51,33 @@ export const verifyEmail = async (data: IVerifyEmailRequest): Promise<IAuthRespo
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
+  });
+};
+
+export const getPackageTypes = async (): Promise<IPackageType[]> => {
+  return _request<IPackageType[]>(withBaseUrl('/api/Cards/packages'), {
+    method: 'GET',
+  });
+};
+
+export const searchCards = async (params: ISearchCardsParams): Promise<ISearchCard[]> => {
+  const searchParams = new URLSearchParams({
+    cityFrom: params.cityFrom,
+    cityTo: params.cityTo,
+    arrivalFromUtc: params.arrivalFromUtc,
+    arrivalToUtc: params.arrivalToUtc,
+    typeId: params.typeId,
+    packageId: params.packageId,
+  });
+
+  return _request<ISearchCard[]>(`${withBaseUrl('/api/Cards/search')}?${searchParams.toString()}`, {
+    method: 'GET',
+  });
+};
+
+export const getCardById = async (id: string): Promise<ISearchCard> => {
+  return _request<ISearchCard>(withBaseUrl(`/api/Cards/${id}`), {
+    method: 'GET',
   });
 };
 

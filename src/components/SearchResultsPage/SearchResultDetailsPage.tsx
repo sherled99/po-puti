@@ -1,8 +1,11 @@
-import React, { useMemo } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import { format } from "date-fns";
+import ruLocale from "date-fns/locale/ru";
 import styles from "./SearchResultDetailsPage.module.css";
 import Footer from "../Footer/Footer";
-import { getSearchResultById } from "./mockResults";
+import { getCardById } from "../../utils/api";
+import type { ISearchCard } from "../../services/types/data";
 
 interface Review {
   id: number;
@@ -42,14 +45,49 @@ function renderStars(count: number) {
 
 const SearchResultDetailsPage: React.FC = () => {
   const { id } = useParams();
-  const numericId = Number(id);
-  const profile = Number.isFinite(numericId) ? getSearchResultById(numericId) : undefined;
+  const location = useLocation();
+  const stateCard = (location.state as { card?: ISearchCard } | undefined)?.card ?? null;
+  const [card, setCard] = useState<ISearchCard | null>(stateCard);
+  const [loading, setLoading] = useState(!stateCard);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (card || !id) {
+      return;
+    }
+
+    let cancelled = false;
+    setLoading(true);
+    setError(null);
+
+    getCardById(id)
+      .then((response) => {
+        if (!cancelled) {
+          setCard(response);
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          console.error("Failed to load card details", err);
+          setError("Не удалось загрузить информацию об объявлении.");
+        }
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [card, id]);
 
   const initials = useMemo(() => {
-    if (!profile) {
+    if (!card) {
       return "";
     }
-    const parts = profile.name.trim().split(" ");
+    const parts = card.name.trim().split(" ");
     if (parts.length === 0) {
       return "";
     }
@@ -57,9 +95,45 @@ const SearchResultDetailsPage: React.FC = () => {
       return parts[0].slice(0, 2).toUpperCase();
     }
     return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
-  }, [profile]);
+  }, [card]);
 
-  if (!profile) {
+  const arrivalDisplay = useMemo(() => {
+    if (!card) {
+      return "";
+    }
+    return format(new Date(card.timeArrivedUtc), "d MMM yyyy, HH:mm", { locale: ruLocale });
+  }, [card]);
+
+  const createdDisplay = useMemo(() => {
+    if (!card) {
+      return "";
+    }
+    return format(new Date(card.createdOnUtc), "d MMM yyyy, HH:mm", { locale: ruLocale });
+  }, [card]);
+
+  if (loading) {
+    return (
+      <main className={styles.page}>
+        <div className={styles.container}>
+          <div className={styles.stateMessage}>Загружаем информацию…</div>
+        </div>
+        <Footer />
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className={styles.page}>
+        <div className={styles.container}>
+          <div className={`${styles.stateMessage} ${styles.stateError}`}>{error}</div>
+        </div>
+        <Footer />
+      </main>
+    );
+  }
+
+  if (!card) {
     return (
       <main className={styles.page}>
         <div className={styles.container}>
@@ -69,8 +143,6 @@ const SearchResultDetailsPage: React.FC = () => {
       </main>
     );
   }
-
-  const ratingDisplay = profile.rating.toFixed(1).replace(".", ",");
 
   return (
     <main className={styles.page}>
@@ -82,30 +154,23 @@ const SearchResultDetailsPage: React.FC = () => {
           <span>—</span>
           <span>Результат поиска</span>
           <span>—</span>
-          <span className={styles.breadcrumbCurrent}>{profile.name}</span>
+          <span className={styles.breadcrumbCurrent}>{card.name}</span>
         </div>
 
         <div className={styles.layout}>
           <aside className={styles.sidebarCard}>
-            {profile.avatar ? (
-              <img src={profile.avatar} alt={profile.name} className={styles.avatar} />
-            ) : (
-              <div className={styles.placeholderAvatar} aria-hidden>
-                {initials}
-              </div>
-            )}
+            <div className={styles.placeholderAvatar} aria-hidden>
+              {initials}
+            </div>
             <div className={styles.sidebarContent}>
-              <h2 className={styles.rewardTitle}>{profile.reward}</h2>
+              <h2 className={styles.rewardTitle}>{card.typeName}</h2>
               <div className={styles.statusRow}>
                 <span className={styles.statusIcon} aria-hidden />
-                <span>{profile.verified ? "Аккаунт подтвержден" : "Аккаунт не подтвержден"}</span>
+                <span>{card.statusName}</span>
               </div>
-              <div className={styles.ratingRow}>
-                <span className={styles.ratingValue}>Рейтинг {ratingDisplay}</span>
-                <span>Отзывы ({profile.reviews})</span>
-              </div>
+              <p className={styles.metaLine}>Создано: {createdDisplay}</p>
               <button type="button" className={styles.actionButton}>
-                Отправить запрос
+                Связаться
               </button>
             </div>
           </aside>
@@ -113,26 +178,25 @@ const SearchResultDetailsPage: React.FC = () => {
           <section className={styles.contentColumn}>
             <article className={styles.profileCard}>
               <header className={styles.profileHeader}>
-                <h1 className={styles.profileName}>{profile.name}</h1>
+                <h1 className={styles.profileName}>{card.name}</h1>
                 <ul className={styles.profileMeta}>
                   <li className={styles.profileMetaItem}>
                     <span className={`${styles.profileMetaIcon} ${styles.iconRoute}`} aria-hidden />
                     <span>
-                      {profile.fromCity} — {profile.toCity}
+                      {card.cityFrom} — {card.cityTo}
                     </span>
                   </li>
                   <li className={styles.profileMetaItem}>
                     <span className={`${styles.profileMetaIcon} ${styles.iconCalendar}`} aria-hidden />
-                    <span>Дата отъезда: {profile.travelDates}</span>
+                    <span>Дата прибытия: {arrivalDisplay}</span>
                   </li>
                   <li className={styles.profileMetaItem}>
                     <span className={`${styles.profileMetaIcon} ${styles.iconPackage}`} aria-hidden />
-                    <span>Размер посылки: {profile.packageSizes.join(", ")}</span>
+                    <span>Размер посылки: {card.packageName}</span>
                   </li>
                 </ul>
               </header>
-              <p className={styles.description}>{profile.description}</p>
-              <p className={styles.warning}>ВНИМАНИЕ: не беру ничего хрупкого и бьющегося.</p>
+              <p className={styles.description}>{card.description || "Описание не указано."}</p>
             </article>
 
             <article className={styles.reviewsCard}>

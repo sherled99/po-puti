@@ -1,31 +1,18 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { format } from "date-fns";
+import ruLocale from "date-fns/locale/ru";
 import styles from "./SearchResultCard.module.css";
-
-export interface SearchResult {
-  id: number;
-  name: string;
-  avatar?: string;
-  fromCity: string;
-  toCity: string;
-  travelDates: string;
-  packageSizes: string[];
-  description: string;
-  reward: string;
-  rating: number;
-  reviews: number;
-  verified: boolean;
-  publishedAt: string;
-}
+import type { ISearchCard } from "../../services/types/data";
 
 interface SearchResultCardProps {
-  result: SearchResult;
+  card: ISearchCard;
 }
 
-const SearchResultCard: React.FC<SearchResultCardProps> = ({ result }) => {
+const SearchResultCard: React.FC<SearchResultCardProps> = ({ card }) => {
   const navigate = useNavigate();
-  const initials = React.useMemo(() => {
-    const parts = result.name.trim().split(" ");
+  const initials = useMemo(() => {
+    const parts = card.name.trim().split(" ");
     if (!parts.length) {
       return "?";
     }
@@ -33,14 +20,24 @@ const SearchResultCard: React.FC<SearchResultCardProps> = ({ result }) => {
       return parts[0].slice(0, 2).toUpperCase();
     }
     return `${parts[0].charAt(0)}${parts[1].charAt(0)}`.toUpperCase();
-  }, [result.name]);
+  }, [card.name]);
 
-  const ratingDisplay = React.useMemo(() => {
-    return result.rating.toFixed(1).replace(".", ",");
-  }, [result.rating]);
+  const arrivalDisplay = useMemo(() => {
+    if (!card.timeArrivedUtc) {
+      return "Дата не указана";
+    }
+    return format(new Date(card.timeArrivedUtc), "d MMM yyyy, HH:mm", { locale: ruLocale });
+  }, [card.timeArrivedUtc]);
+
+  const createdDisplay = useMemo(() => {
+    if (!card.createdOnUtc) {
+      return "-";
+    }
+    return format(new Date(card.createdOnUtc), "d MMM yyyy, HH:mm", { locale: ruLocale });
+  }, [card.createdOnUtc]);
 
   const handleOpenDetails = () => {
-    navigate(`/search/${result.id}`);
+    navigate(`/search/${card.id}`, { state: { card } });
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
@@ -57,66 +54,50 @@ const SearchResultCard: React.FC<SearchResultCardProps> = ({ result }) => {
       onKeyDown={handleKeyDown}
       role="button"
       tabIndex={0}
-      aria-label={`Открыть подробную информацию о попутчике ${result.name}`}
+      aria-label={`Открыть подробную информацию об объявлении ${card.name}`}
     >
       <div className={styles.main}>
         <div className={styles.avatarWrapper}>
-          {result.avatar ? (
-            <img className={styles.avatarImage} src={result.avatar} alt={result.name} />
-          ) : (
-            <span className={styles.avatarFallback} aria-hidden>
-              {initials}
-            </span>
-          )}
+          <span className={styles.avatarFallback} aria-hidden>
+            {initials}
+          </span>
         </div>
         <div className={styles.details}>
-          <h3 className={styles.name}>{result.name}</h3>
+          <h3 className={styles.name}>{card.name}</h3>
           <ul className={styles.meta} aria-label="Ключевые параметры">
             <li className={styles.metaItem}>
               <span className={`${styles.metaIcon} ${styles.iconRoute}`} aria-hidden />
-              <span className={styles.metaValue}>{`${result.fromCity} — ${result.toCity}`}</span>
+              <span className={styles.metaValue}>{`${card.cityFrom} — ${card.cityTo}`}</span>
             </li>
             <li className={styles.metaItem}>
               <span className={`${styles.metaIcon} ${styles.iconCalendar}`} aria-hidden />
-              <span className={styles.metaValue}>Дата отъезда: {result.travelDates}</span>
+              <span className={styles.metaValue}>Дата прибытия: {arrivalDisplay}</span>
             </li>
             <li className={styles.metaItem}>
               <span className={`${styles.metaIcon} ${styles.iconPackage}`} aria-hidden />
-              <span className={styles.metaValue}>
-                Размер посылки: {result.packageSizes.join(", ")}
-              </span>
+              <span className={styles.metaValue}>Размер посылки: {card.packageName}</span>
             </li>
           </ul>
-          <p className={styles.description}>{result.description}</p>
-          <p className={styles.publishedAt}>Дата публикации: {result.publishedAt}</p>
+          <p className={styles.description}>{card.description || "Описание не указано."}</p>
+          <p className={styles.publishedAt}>Дата публикации: {createdDisplay}</p>
         </div>
       </div>
       <div className={styles.aside}>
-        <span className={styles.reward}>{result.reward}</span>
-        <div className={styles.ratingRow}>
-          <span className={styles.ratingLabel}>Рейтинг {ratingDisplay}</span>
-          <button type="button" className={styles.reviewsLink}>
-            Отзывы ({result.reviews})
-          </button>
+        <span className={styles.tag}>{card.typeName}</span>
+        <div className={styles.statusRow}>
+          <span className={styles.statusDot} aria-hidden />
+          <span className={styles.statusText}>{card.statusName}</span>
         </div>
-        <div className={styles.verificationRow}>
-          <span
-            className={`${styles.statusIcon} ${
-              result.verified ? styles.statusIconSuccess : styles.statusIconWarn
-            }`}
-            aria-hidden
-          />
-          <span className={styles.verificationText}>
-            {result.verified ? "Аккаунт подтвержден" : "Аккаунт не подтвержден"}
-          </span>
-          <span className={styles.infoIcon} aria-hidden />
-        </div>
+        <p className={styles.createdAt}>Создано: {createdDisplay}</p>
         <button
           type="button"
           className={styles.actionBtn}
-          onClick={(event) => event.stopPropagation()}
+          onClick={(event) => {
+            event.stopPropagation();
+            handleOpenDetails();
+          }}
         >
-          Отправить запрос
+          Подробнее
         </button>
       </div>
     </article>

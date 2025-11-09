@@ -16,6 +16,11 @@ export interface IAuthResponse {
   token: string | null;
 }
 
+export interface IPackageType {
+  id: string;
+  name: string;
+}
+
 export interface IVerifyEmailRequest {
   email: string;
   code: string;
@@ -53,4 +58,30 @@ export interface IUser {
   isApprovedPhone: boolean;
   contactInfo: string;
   rateUser: number;
+}
+
+export interface ISearchCard {
+  id: string;
+  name: string;
+  createdById: string;
+  createdOnUtc: string;
+  cityTo: string;
+  cityFrom: string;
+  timeArrivedUtc: string;
+  description: string;
+  typeId: string;
+  typeName: string;
+  statusId: string;
+  statusName: string;
+  packageId: string;
+  packageName: string;
+}
+
+export interface ISearchCardsParams {
+  cityFrom: string;
+  cityTo: string;
+  arrivalFromUtc: string;
+  arrivalToUtc: string;
+  typeId: string;
+  packageId: string;
 }
