@@ -120,7 +120,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const handleDateChange = (item: { selection: RangeItem }) => {
     const updated = item.selection;
     setRange([updated]);
-    if (updated.endDate >= updated.startDate) {
+    if (updated.endDate > updated.startDate) {
       setShowCalendar(false);
     }
   };
