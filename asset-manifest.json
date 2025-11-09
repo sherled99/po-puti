@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/po-puti/static/css/main.b82bdd28.css",
-    "main.js": "/po-puti/static/js/main.42975721.js",
+    "main.js": "/po-puti/static/js/main.d296d7af.js",
     "static/js/453.e3b15945.chunk.js": "/po-puti/static/js/453.e3b15945.chunk.js",
     "static/media/value-proposition.png": "/po-puti/static/media/value-proposition.987ed5f405245082e7b1.png",
     "static/media/info 2.png": "/po-puti/static/media/info 2.0be8428a60226aaecc57.png",
@@ -35,11 +35,11 @@
     "index.html": "/po-puti/index.html",
     "static/media/user.svg": "/po-puti/static/media/user.f0211cf5e1836507280e2f6e4ec4472f.svg",
     "main.b82bdd28.css.map": "/po-puti/static/css/main.b82bdd28.css.map",
-    "main.42975721.js.map": "/po-puti/static/js/main.42975721.js.map",
+    "main.d296d7af.js.map": "/po-puti/static/js/main.d296d7af.js.map",
     "453.e3b15945.chunk.js.map": "/po-puti/static/js/453.e3b15945.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b82bdd28.css",
-    "static/js/main.42975721.js"
+    "static/js/main.d296d7af.js"
   ]
 }
