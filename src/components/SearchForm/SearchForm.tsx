@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
@@ -7,6 +7,8 @@ import ruLocale from "date-fns/locale/ru";
 import styles from "./SearchForm.module.css";
 import { getPackageTypes } from "../../utils/api";
 import type { IPackageType } from "../../services/types/data";
+import { useCitiesOptions } from "../../hooks/useCitiesOptions";
+import CityCombo from "../CityCombo/CityCombo";
 
 export type TripTab = "send" | "receive";
 
@@ -33,8 +35,6 @@ export interface SearchFormProps {
   onSearch?: (values: SearchFormValues) => void;
 }
 
-const cities = ["Баку", "Белград", "Ереван", "Санкт-Петербург", "Тбилиси", "Москва"];
-
 const tabs: Array<{ value: TripTab; label: string }> = [
   { value: "send", label: "Отправить посылку" },
   { value: "receive", label: "Отвезти посылку" },
@@ -53,8 +53,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
   onSearch,
 }) => {
   const [tripType, setTripType] = useState<TripTab>(initialValues?.tripType ?? "send");
-  const [fromCity, setFromCity] = useState<string>(initialValues?.fromCity ?? "Баку");
-  const [toCity, setToCity] = useState<string>(initialValues?.toCity ?? "Белград");
+  const [fromCity, setFromCity] = useState<string>(initialValues?.fromCity ?? "");
+  const [toCity, setToCity] = useState<string>(initialValues?.toCity ?? "");
   const [selectedPackageId, setSelectedPackageId] = useState<string>(initialValues?.packageId ?? "");
   const [packageOptions, setPackageOptions] = useState<IPackageType[]>([]);
   const [range, setRange] = useState<RangeItem[]>(() => {
@@ -65,6 +65,10 @@ const SearchForm: React.FC<SearchFormProps> = ({
   });
   const [showCalendar, setShowCalendar] = useState(false);
   const calendarRef = useRef<HTMLDivElement>(null);
+  const { cities: cityOptions, loading: citiesLoading, error: citiesError } = useCitiesOptions();
+  const limitedCities = useMemo(() => {
+    return cityOptions;
+  }, [cityOptions]);
 
   useEffect(() => {
     let cancelled = false;
@@ -204,37 +208,29 @@ const SearchForm: React.FC<SearchFormProps> = ({
           >
             {tab.label}
           </button>
-        ))}
+        ))} 
       </div>
       <form className={styles.searchForm} onSubmit={handleSubmit}>
-        <select
-          className={[styles.field, fieldVariantClass].join(" ")}
+        <CityCombo
           value={fromCity}
-          onChange={(event) => setFromCity(event.target.value)}
-        >
-          <option value="" disabled>
-            Откуда
-          </option>
-          {cities.map((city) => (
-            <option key={city} value={city}>
-              {city}
-            </option>
-          ))}
-        </select>
-        <select
-          className={[styles.field, fieldVariantClass].join(" ")}
+          onChange={setFromCity}
+          placeholder="Откуда"
+          options={limitedCities}
+          loading={citiesLoading}
+          className={styles.comboWrapper}
+          inputClassName={[styles.field, styles.comboInput, fieldVariantClass].join(" ")}
+          dropdownMaxItems={8}
+        />
+        <CityCombo
           value={toCity}
-          onChange={(event) => setToCity(event.target.value)}
-        >
-          <option value="" disabled>
-            Куда
-          </option>
-          {cities.map((city) => (
-            <option key={city} value={city}>
-              {city}
-            </option>
-          ))}
-        </select>
+          onChange={setToCity}
+          placeholder="Куда"
+          options={limitedCities}
+          loading={citiesLoading}
+          className={styles.comboWrapper}
+          inputClassName={[styles.field, styles.comboInput, fieldVariantClass].join(" ")}
+          dropdownMaxItems={8}
+        />
         <div className={styles.datePickerWrapper} ref={calendarRef}>
           <button
             type="button"
@@ -277,6 +273,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
           Найти попутчика
         </button>
       </form>
+      {citiesError && <p className={styles.citiesMessage}>{citiesError}</p>}
     </div>
   );
 };

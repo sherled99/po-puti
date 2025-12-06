@@ -12,7 +12,21 @@ import {
   TUserActions,
   AUTH_TOKEN_STORAGE_KEY,
   AUTH_EMAIL_STORAGE_KEY,
+  FORGOT_PASSWORD_REQUEST,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAILED,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAILED,
+  FETCH_USER_REQUEST,
+  FETCH_USER_SUCCESS,
+  FETCH_USER_FAILED,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILED,
+  AUTH_USER_ID_STORAGE_KEY,
 } from '../actions/user';
+import { IUser } from '../types/data';
 
 interface IUserState {
   loading: boolean;
@@ -22,10 +36,15 @@ interface IUserState {
   email: string | null;
   emailConfirmed: boolean;
   needsVerification: boolean;
+  passwordResetRequested: boolean;
+  passwordResetCompleted: boolean;
+  profile: IUser | null;
+  userId: string | null;
 }
 
 const persistedToken = typeof window !== 'undefined' ? localStorage.getItem(AUTH_TOKEN_STORAGE_KEY) : null;
 const persistedEmail = typeof window !== 'undefined' ? localStorage.getItem(AUTH_EMAIL_STORAGE_KEY) : null;
+const persistedUserId = typeof window !== 'undefined' ? localStorage.getItem(AUTH_USER_ID_STORAGE_KEY) : null;
 
 const initialState: IUserState = {
   loading: false,
@@ -35,6 +54,10 @@ const initialState: IUserState = {
   email: persistedEmail,
   emailConfirmed: Boolean(persistedToken),
   needsVerification: false,
+  passwordResetRequested: false,
+  passwordResetCompleted: false,
+  profile: null,
+  userId: persistedUserId,
 };
 
 export const userReducer = (state = initialState, action: TUserActions): IUserState => {
@@ -42,6 +65,10 @@ export const userReducer = (state = initialState, action: TUserActions): IUserSt
     case REGISTER_USER_REQUEST:
     case LOGIN_USER_REQUEST:
     case VERIFY_EMAIL_REQUEST:
+    case FORGOT_PASSWORD_REQUEST:
+    case RESET_PASSWORD_REQUEST:
+    case FETCH_USER_REQUEST:
+    case UPDATE_USER_REQUEST:
       return {
         ...state,
         loading: true,
@@ -58,6 +85,9 @@ export const userReducer = (state = initialState, action: TUserActions): IUserSt
         email,
         emailConfirmed,
         needsVerification: !emailConfirmed,
+        passwordResetRequested: false,
+        passwordResetCompleted: false,
+        profile: null,
       };
     }
     case LOGIN_USER_SUCCESS: {
@@ -71,6 +101,9 @@ export const userReducer = (state = initialState, action: TUserActions): IUserSt
         email,
         emailConfirmed: emailConfirmed ?? Boolean(token),
         needsVerification: !emailConfirmed,
+        passwordResetRequested: false,
+        passwordResetCompleted: false,
+        profile: null,
       };
     }
     case VERIFY_EMAIL_SUCCESS: {
@@ -84,6 +117,9 @@ export const userReducer = (state = initialState, action: TUserActions): IUserSt
         email,
         emailConfirmed: Boolean(emailConfirmed),
         needsVerification: false,
+        passwordResetRequested: false,
+        passwordResetCompleted: false,
+        profile: null,
       };
     }
     case REGISTER_USER_FAILED:
@@ -97,6 +133,10 @@ export const userReducer = (state = initialState, action: TUserActions): IUserSt
         email: null,
         emailConfirmed: false,
         needsVerification: false,
+        passwordResetRequested: false,
+        passwordResetCompleted: false,
+        profile: null,
+        userId: null,
       };
     case VERIFY_EMAIL_FAILED:
       return {
@@ -107,6 +147,9 @@ export const userReducer = (state = initialState, action: TUserActions): IUserSt
         token: null,
         emailConfirmed: false,
         needsVerification: true,
+        passwordResetRequested: false,
+        passwordResetCompleted: false,
+        profile: null,
       };
     case LOGOUT_USER:
       return {
@@ -118,6 +161,76 @@ export const userReducer = (state = initialState, action: TUserActions): IUserSt
         email: null,
         emailConfirmed: false,
         needsVerification: false,
+        passwordResetRequested: false,
+        passwordResetCompleted: false,
+        profile: null,
+        userId: null,
+      };
+    case FORGOT_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        passwordResetRequested: true,
+        passwordResetCompleted: false,
+      };
+    case FORGOT_PASSWORD_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+        passwordResetRequested: false,
+      };
+    case RESET_PASSWORD_SUCCESS: {
+      const { token, email, emailConfirmed } = action.payload;
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        isAuthenticated: Boolean(token),
+        token,
+        email,
+        emailConfirmed: emailConfirmed ?? Boolean(token),
+        needsVerification: false,
+        passwordResetRequested: false,
+        passwordResetCompleted: true,
+        profile: null,
+      };
+    }
+    case RESET_PASSWORD_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+        passwordResetCompleted: false,
+      };
+    case FETCH_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        profile: action.payload,
+        userId: action.payload.id,
+      };
+    case FETCH_USER_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      };
+    case UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        profile: action.payload,
+        userId: action.payload.id,
+      };
+    case UPDATE_USER_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
       };
     default:
       return state;

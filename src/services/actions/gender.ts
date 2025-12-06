@@ -39,7 +39,7 @@ export const getGenderFailedAction = (error: string): IGetGenderFailedAction => 
   error,
 });
 
-export const getGenders: AppThunk = () => async (dispatch: AppDispatch) => {
+export const getGenders = (): AppThunk => async (dispatch: AppDispatch) => {
   dispatch(getGenderRequestAction());
   getGender()
     .then((res: Array<IGender>) => {

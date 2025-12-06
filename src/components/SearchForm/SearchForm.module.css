@@ -140,6 +140,62 @@
   background-position: right 16px center;
 }
 
+.comboInput {
+  appearance: none;
+  padding-right: 44px;
+}
+
+.comboWrapper {
+  position: relative;
+  flex: 1;
+  min-width: 180px;
+  max-width: 240px;
+}
+
+.comboArrow {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  width: 10px;
+  height: 6px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6H0z' fill='%23333333'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.comboList {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(34, 43, 64, 0.12);
+  box-shadow: 0 28px 70px rgba(31, 39, 56, 0.2);
+  max-height: 220px;
+  overflow-y: auto;
+  padding: 6px;
+  list-style: none;
+  margin: 0;
+}
+
+.comboOption {
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #1f2738;
+  font-weight: 500;
+}
+
+.comboOption:hover,
+.comboOptionActive {
+  background: #fff3d5;
+  color: #1f2738;
+}
+
 select.field {
   cursor: pointer;
 }
@@ -175,6 +231,14 @@ select.field {
 .searchBtn:hover {
   transform: translateY(-2px);
   box-shadow: 0 24px 60px rgba(255, 172, 31, 0.45);
+}
+
+.citiesMessage {
+  width: 100%;
+  text-align: center;
+  color: #d92d20;
+  font-size: 0.95rem;
+  margin: 4px 0 0;
 }
 
 @media (max-width: 1024px) {

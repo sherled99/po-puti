@@ -1,9 +1,12 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { format } from "date-fns";
 import ruLocale from "date-fns/locale/ru";
 import styles from "./SearchResultCard.module.css";
 import type { ISearchCard } from "../../services/types/data";
+import type { RootState } from "../../services/types";
+import { getUserById } from "../../utils/api";
 
 interface SearchResultCardProps {
   card: ISearchCard;
@@ -11,6 +14,8 @@ interface SearchResultCardProps {
 
 const SearchResultCard: React.FC<SearchResultCardProps> = ({ card }) => {
   const navigate = useNavigate();
+  const token = useSelector((state: RootState) => state.user.token);
+  const [avatar, setAvatar] = useState<string | null>(() => card.image ?? card.createdByImage ?? null);
   const initials = useMemo(() => {
     const parts = card.name.trim().split(" ");
     if (!parts.length) {
@@ -37,6 +42,11 @@ const SearchResultCard: React.FC<SearchResultCardProps> = ({ card }) => {
   }, [card.createdOnUtc]);
 
   const handleOpenDetails = () => {
+    try {
+      window.sessionStorage.setItem("restoreSearchAfterBack", "true");
+    } catch {
+      /* ignore storage issues */
+    }
     navigate(`/search/${card.id}`, { state: { card } });
   };
 
@@ -46,6 +56,25 @@ const SearchResultCard: React.FC<SearchResultCardProps> = ({ card }) => {
       handleOpenDetails();
     }
   };
+
+  useEffect(() => {
+    let cancelled = false;
+    if (avatar || !token || !card.createdById) {
+      return;
+    }
+    getUserById(card.createdById, token)
+      .then((user) => {
+        if (!cancelled && user.image) {
+          setAvatar(user.image);
+        }
+      })
+      .catch(() => {
+        /* ignore, fallback to initials */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [avatar, card.createdById, token]);
 
   return (
     <article
@@ -58,9 +87,13 @@ const SearchResultCard: React.FC<SearchResultCardProps> = ({ card }) => {
     >
       <div className={styles.main}>
         <div className={styles.avatarWrapper}>
-          <span className={styles.avatarFallback} aria-hidden>
-            {initials}
-          </span>
+          {avatar ? (
+            <img src={`data:image/*;base64,${avatar}`} alt="" className={styles.avatarImage} />
+          ) : (
+            <span className={styles.avatarFallback} aria-hidden>
+              {initials}
+            </span>
+          )}
         </div>
         <div className={styles.details}>
           <h3 className={styles.name}>{card.name}</h3>

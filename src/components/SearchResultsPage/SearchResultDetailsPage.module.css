@@ -61,6 +61,12 @@
   color: #1f2738;
 }
 
+.detailAvatar {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+}
+
 .sidebarContent {
   padding: 28px 28px 32px;
   display: flex;

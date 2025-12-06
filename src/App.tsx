@@ -1,4 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import Gender from "./components/Gender/Gender";
 import Header from "./components/Header/Header";
 import MainPage from "./components/Main/MainPage";
@@ -9,12 +10,19 @@ import Authorization from "./components/Authorization/Authorization";
 import VerificationForm from "./components/VerificationForm/VerificationForm";
 import ResetPasswordForm from "./components/ResetPasswordForm/ResetPasswordForm";
 import ResetForm from "./components/ResetForm/ResetForm";
+import ProfilePage from "./components/Profile/ProfilePage";
+import CreateListingPage from "./components/CreateListingPage/CreateListingPage";
+import MyCardsPage from "./components/MyCardsPage/MyCardsPage";
 import "./App.css";
 import "@fontsource/inter";
 
 export default function App() {
   const location = useLocation();
   const state = location.state as { backgroundLocation?: Location };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname, location.search]);
 
   return (
     <div className="App">
@@ -24,9 +32,14 @@ export default function App() {
         <Route path="/allGender" element={<Gender />} />
         <Route path="/search" element={<SearchResultsPage />} />
         <Route path="/search/:id" element={<SearchResultDetailsPage />} />
-        <Route path="/login" element={<MainPage/>} />
-        <Route path="/register" element={<MainPage/>} />
-        <Route path="/verification" element={<MainPage/>} />
+        <Route path="/create" element={<CreateListingPage />} />
+        <Route path="/my-cards" element={<MyCardsPage />} />
+        <Route path="/login" element={<MainPage />} />
+        <Route path="/register" element={<MainPage />} />
+        <Route path="/verification" element={<MainPage />} />
+        <Route path="/resetPassword" element={<ResetPasswordForm />} />
+        <Route path="/enterResetedPassword" element={<ResetForm />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
       {state?.backgroundLocation && (
         <Routes>

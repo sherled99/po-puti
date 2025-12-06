@@ -53,6 +53,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-left: auto;
 }
 
 .primaryAction {
@@ -97,9 +98,73 @@
   align-items: center;
 }
 
-.profileButton img {
-  width: 28px;
-  height: 28px;
+.userMenu {
+  position: relative;
+}
+
+.userButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(34, 43, 64, 0.15);
+  background: #ffffff;
+  color: #1f2738;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.userButton:hover {
+  border-color: #f0a500;
+  box-shadow: 0 12px 24px rgba(31, 39, 56, 0.12);
+}
+
+.caret {
+  width: 10px;
+  height: 10px;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 0.2s ease;
+}
+
+.caretOpen {
+  transform: rotate(135deg) translateY(2px);
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 220px;
+  background: #ffffff;
+  border: 1px solid rgba(34, 43, 64, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(31, 39, 56, 0.15);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 200;
+}
+
+.dropdownItem {
+  background: transparent;
+  border: none;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  color: #1f2738;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.dropdownItem:hover {
+  background: rgba(255, 201, 71, 0.15);
+  color: #d48400;
 }
 
 @media (max-width: 992px) {

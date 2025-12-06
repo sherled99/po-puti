@@ -24,6 +24,8 @@ const TRIP_TYPE_TO_ID: Record<TripTab, string> = {
   receive: "2b1790e0-7cf0-4f96-9e19-7b0f395464a6",
 };
 
+const LAST_SEARCH_STORAGE_KEY = "lastSearchValues";
+
 type SerializedSearchFormValues = Omit<SearchFormValues, "dateFrom" | "dateTo"> & {
   dateFrom: string | Date;
   dateTo: string | Date;
@@ -49,6 +51,46 @@ function formatCriteriaRange(start: Date, end: Date) {
   })}`;
 }
 
+function serializeSearchValues(values: SearchFormValues): SerializedSearchFormValues {
+  return {
+    ...values,
+    dateFrom: values.dateFrom.toISOString(),
+    dateTo: values.dateTo.toISOString(),
+  };
+}
+
+function persistSearch(values: SearchFormValues) {
+  if (typeof window === "undefined") return;
+  try {
+    const serialized = serializeSearchValues(values);
+    window.sessionStorage.setItem(LAST_SEARCH_STORAGE_KEY, JSON.stringify(serialized));
+  } catch {
+    /* ignore */
+  }
+}
+
+function loadPersistedSearch(): SearchFormValues | null {
+  if (typeof window === "undefined") return null;
+  const raw = window.sessionStorage.getItem(LAST_SEARCH_STORAGE_KEY);
+  if (!raw) return null;
+  try {
+    const parsed = JSON.parse(raw) as SerializedSearchFormValues;
+    return reviveSearchValues(parsed);
+  } catch {
+    return null;
+  }
+}
+
+function shouldRestoreFromCard(): boolean {
+  if (typeof window === "undefined") return false;
+  const flag = window.sessionStorage.getItem("restoreSearchAfterBack");
+  if (flag) {
+    window.sessionStorage.removeItem("restoreSearchAfterBack");
+    return true;
+  }
+  return false;
+}
+
 const SearchResultsPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -72,6 +114,7 @@ const SearchResultsPage: React.FC = () => {
     setError(null);
     setHasSearched(true);
     setSearchCriteria(values);
+    persistSearch(values);
 
     try {
       const data = await searchCards({
@@ -95,6 +138,12 @@ const SearchResultsPage: React.FC = () => {
   useEffect(() => {
     const state = (location.state as SearchLocationState | null) ?? null;
     if (!state?.searchValues) {
+      if (shouldRestoreFromCard()) {
+        const saved = loadPersistedSearch();
+        if (saved) {
+          fetchResults(saved);
+        }
+      }
       return;
     }
 

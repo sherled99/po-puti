@@ -1,0 +1,258 @@
+.page {
+  padding: 48px 24px 72px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.breadcrumbs {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 16px;
+}
+
+.titleRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.titleBlock h1 {
+  margin: 4px 0;
+  font-size: 32px;
+  color: #1f2738;
+}
+
+.titleBlock p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.avatarSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.avatarPreview {
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+  background: #eef1f6;
+  object-fit: cover;
+}
+
+.avatarFallback {
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #f5f7fb, #e6ebf3);
+  display: grid;
+  place-items: center;
+  color: #8a95aa;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.avatarControls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.uploadLabel {
+  font-weight: 600;
+  color: #1f2738;
+}
+
+.uploadHint {
+  margin: 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px 24px 28px;
+  box-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04),
+    0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(95, 95, 99, 0.1);
+}
+
+.cardTitle {
+  margin: 0 0 16px 0;
+  font-size: 20px;
+}
+
+.twoCols {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-weight: 600;
+  color: #1f2738;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px 14px;
+  font-size: 15px;
+  background: #f9fafb;
+  transition: border 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #ffc107;
+  background: #fffdf6;
+  box-shadow: 0 0 0 4px rgba(255, 193, 7, 0.15);
+}
+
+.sexToggle {
+  display: inline-flex;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.sexButton {
+  padding: 12px 18px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 600;
+  color: #6b7280;
+  transition: background 0.2s, color 0.2s;
+}
+
+.sexButton.active {
+  background: #ffc107;
+  color: #1f2738;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.primaryBtn {
+  background: linear-gradient(90deg, #ffc107 0%, #ffdd57 100%);
+  border: none;
+  color: #1f2738;
+  font-weight: 700;
+  padding: 14px 20px;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0px 12px 24px rgba(255, 193, 7, 0.35);
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.primaryBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.primaryBtn:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.textBtn {
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 12px;
+}
+
+.note {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 12px 0 0;
+}
+
+.infoCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pill {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f9fafb;
+  border: 1px solid #eef0f3;
+  font-size: 14px;
+  color: #1f2738;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fffdf6;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  font-weight: 600;
+  color: #1f2738;
+}
+
+.message {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.message.success {
+  background: rgba(46, 125, 50, 0.08);
+  color: #2e7d32;
+  border: 1px solid rgba(46, 125, 50, 0.2);
+}
+
+.message.error {
+  background: rgba(192, 57, 43, 0.08);
+  color: #b23b31;
+  border: 1px solid rgba(192, 57, 43, 0.2);
+}
+
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .twoCols {
+    grid-template-columns: 1fr;
+  }
+}

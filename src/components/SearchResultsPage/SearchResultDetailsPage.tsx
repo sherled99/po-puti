@@ -1,11 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { format } from "date-fns";
 import ruLocale from "date-fns/locale/ru";
 import styles from "./SearchResultDetailsPage.module.css";
 import Footer from "../Footer/Footer";
-import { getCardById } from "../../utils/api";
+import { getCardById, getUserById } from "../../utils/api";
 import type { ISearchCard } from "../../services/types/data";
+import type { RootState } from "../../services/types";
 
 interface Review {
   id: number;
@@ -46,10 +48,12 @@ function renderStars(count: number) {
 const SearchResultDetailsPage: React.FC = () => {
   const { id } = useParams();
   const location = useLocation();
+  const token = useSelector((state: RootState) => state.user.token);
   const stateCard = (location.state as { card?: ISearchCard } | undefined)?.card ?? null;
   const [card, setCard] = useState<ISearchCard | null>(stateCard);
   const [loading, setLoading] = useState(!stateCard);
   const [error, setError] = useState<string | null>(null);
+  const [avatar, setAvatar] = useState<string | null>(() => stateCard?.image ?? stateCard?.createdByImage ?? null);
 
   useEffect(() => {
     if (card || !id) {
@@ -82,6 +86,25 @@ const SearchResultDetailsPage: React.FC = () => {
       cancelled = true;
     };
   }, [card, id]);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (avatar || !token || !card?.createdById) {
+      return;
+    }
+    getUserById(card.createdById, token)
+      .then((user) => {
+        if (!cancelled && user.image) {
+          setAvatar(user.image);
+        }
+      })
+      .catch(() => {
+        /* ignore */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [avatar, card?.createdById, token]);
 
   const initials = useMemo(() => {
     if (!card) {
@@ -159,9 +182,13 @@ const SearchResultDetailsPage: React.FC = () => {
 
         <div className={styles.layout}>
           <aside className={styles.sidebarCard}>
-            <div className={styles.placeholderAvatar} aria-hidden>
-              {initials}
-            </div>
+            {avatar ? (
+              <img src={`data:image/*;base64,${avatar}`} alt="" className={styles.detailAvatar} />
+            ) : (
+              <div className={styles.placeholderAvatar} aria-hidden>
+                {initials}
+              </div>
+            )}
             <div className={styles.sidebarContent}>
               <h2 className={styles.rewardTitle}>{card.typeName}</h2>
               <div className={styles.statusRow}>

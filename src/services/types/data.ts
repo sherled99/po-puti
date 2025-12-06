@@ -1,11 +1,6 @@
 export interface IOptions {
   method: string;
-  headers?: {
-    Authorization?: string;
-    "Content-Type"?: string;
-    "Access-Control-Allow-Origin"?: string;
-    "Access-Control-Allow-Headers"?: string;
-  };
+  headers?: HeadersInit;
   body?: string;
   credentials?: RequestCredentials;
 }
@@ -17,6 +12,16 @@ export interface IAuthResponse {
 }
 
 export interface IPackageType {
+  id: string;
+  name: string;
+}
+
+export interface ICardType {
+  id: string;
+  name: string;
+}
+
+export interface ICardStatus {
   id: string;
   name: string;
 }
@@ -44,20 +49,38 @@ export interface ILogin {
   password: string;
 }
 
+export interface IUpdateUserRequest {
+  firstName?: string;
+  lastName?: string;
+  sex?: boolean | null;
+  city?: string;
+  phone?: string;
+  isApprovedPhone?: boolean;
+  contactInfo?: string;
+  rate?: number;
+  image?: string | null;
+}
+
+export interface IResetPasswordRequest {
+  token: string;
+  email: string;
+  newPassword: string;
+}
+
 export interface IUser {
   id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  firstName: string;
-  secondName: string;
-  passwordHash: string;
-  gender: IGender;
-  city: string;
   email: string;
-  phone: string;
-  isApprovedPhone: boolean;
-  contactInfo: string;
-  rateUser: number;
+  firstName?: string | null;
+  lastName?: string | null;
+  sex?: boolean | null;
+  city?: string | null;
+  phone?: string | null;
+  isApprovedPhone?: boolean;
+  contactInfo?: string | null;
+  rate?: number | null;
+  emailConfirmed?: boolean;
+  createdAtUtc?: string;
+  image?: string | null;
 }
 
 export interface ISearchCard {
@@ -65,6 +88,8 @@ export interface ISearchCard {
   name: string;
   createdById: string;
   createdOnUtc: string;
+  image?: string | null;
+  createdByImage?: string | null;
   cityTo: string;
   cityFrom: string;
   timeArrivedUtc: string;
@@ -83,5 +108,17 @@ export interface ISearchCardsParams {
   arrivalFromUtc: string;
   arrivalToUtc: string;
   typeId: string;
+  packageId: string;
+}
+
+export interface ICreateCardRequest {
+  name: string;
+  createdById: string;
+  cityTo: string;
+  cityFrom: string;
+  timeArrivedUtc: string;
+  description: string;
+  typeId: string;
+  statusId: string;
   packageId: string;
 }

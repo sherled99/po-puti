@@ -14,7 +14,7 @@ const Register: React.FC = () => {
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(register({ firstName, secondName, email, password }) as any);
+    dispatch(register({ email, password }) as any);
   };
 
   return (

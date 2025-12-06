@@ -1,0 +1,55 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 44px;
+  cursor: text;
+}
+
+.arrow {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  width: 10px;
+  height: 6px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6H0z' fill='%23333333'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.list {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid rgba(34, 43, 64, 0.08);
+  box-shadow: 0 24px 64px rgba(31, 39, 56, 0.2);
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+}
+
+.option {
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #1f2738;
+  font-weight: 500;
+}
+
+.option:hover,
+.optionActive {
+  background: #fff3d5;
+  color: #1f2738;
+}
