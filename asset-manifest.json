@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.e1eb3055.css",
-    "main.js": "/static/js/main.6a4d0f91.js",
+    "main.css": "/static/css/main.c38d45e1.css",
+    "main.js": "/static/js/main.ad430380.js",
     "static/js/453.e3b15945.chunk.js": "/static/js/453.e3b15945.chunk.js",
     "static/media/value-proposition.png": "/static/media/value-proposition.987ed5f405245082e7b1.png",
     "static/media/info 2.png": "/static/media/info 2.0be8428a60226aaecc57.png",
@@ -11,9 +11,7 @@
     "static/media/life.png": "/static/media/life.e238e3250f671f19cacb.png",
     "static/media/Frame 2131329071.png": "/static/media/Frame 2131329071.5ede1d8b865c36271068.png",
     "static/media/heroSection.jpg": "/static/media/heroSection.a2f1b87f42ea046baf2c.jpg",
-    "static/media/vkLogo.png": "/static/media/vkLogo.377400d07a84cb6b6d1b.png",
     "static/media/message.png": "/static/media/message.6f036393025cf761edb8.png",
-    "static/media/yandexLogo.png": "/static/media/yandexLogo.c6f841271b287f5ee852.png",
     "static/media/megaphone.png": "/static/media/megaphone.71568cc3749a9e3e1a40.png",
     "static/media/safety 1.png": "/static/media/safety 1.3ae6143ab55a079384ba.png",
     "static/media/courier.png": "/static/media/courier.68cc263b19147eeb7c31.png",
@@ -33,12 +31,12 @@
     "static/media/inter-greek-ext-400-normal.woff2": "/static/media/inter-greek-ext-400-normal.f2fa0d9ef98f59d4a75b.woff2",
     "static/media/inter-vietnamese-400-normal.woff2": "/static/media/inter-vietnamese-400-normal.44c9df135eec470b0ab6.woff2",
     "index.html": "/index.html",
-    "main.e1eb3055.css.map": "/static/css/main.e1eb3055.css.map",
-    "main.6a4d0f91.js.map": "/static/js/main.6a4d0f91.js.map",
+    "main.c38d45e1.css.map": "/static/css/main.c38d45e1.css.map",
+    "main.ad430380.js.map": "/static/js/main.ad430380.js.map",
     "453.e3b15945.chunk.js.map": "/static/js/453.e3b15945.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e1eb3055.css",
-    "static/js/main.6a4d0f91.js"
+    "static/css/main.c38d45e1.css",
+    "static/js/main.ad430380.js"
   ]
 }
