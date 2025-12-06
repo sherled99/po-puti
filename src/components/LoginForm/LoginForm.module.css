@@ -28,15 +28,21 @@
     transition: background-color 0.3s;
   }
   
-  .submitButton:hover {
-    background-color: #f9a828;
-  }
-  
-  .forgotPassword {
-    text-align: center;
-    margin-top: 15px;
-    cursor: pointer;
-    color: #007bff;
+.submitButton:hover {
+  background-color: #f9a828;
+}
+
+.errorMessage {
+  color: #d14343;
+  font-size: 14px;
+  margin: 6px 0 12px;
+}
+
+.forgotPassword {
+  text-align: center;
+  margin-top: 15px;
+  cursor: pointer;
+  color: #007bff;
   }
   
   .agreementText {

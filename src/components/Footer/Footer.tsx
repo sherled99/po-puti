@@ -29,18 +29,6 @@ const Footer: React.FC = () => {
 
         <div className={styles.column}>
           <a href="mailto:poputi@gmail.com" className={styles.contact}>poputi@gmail.com</a>
-          <a href="tel:+78129201754" className={styles.contact}>+7 (812) 920-17-54</a>
-          <p className={styles.address}>
-            г. Санкт-Петербург, ул. Лифляндская, д. 3, Лит. О, помещение 1-Н, ком., №23
-          </p>
-          <div className={styles.socials}>
-            <a href="#" aria-label="YouTube">
-              <img src={youtubeIcon} alt="" />
-            </a>
-            <a href="#" aria-label="VK">
-              <img src={vkIcon} alt="" />
-            </a>
-          </div>
         </div>
 
         <div className={styles.column}>
@@ -53,10 +41,9 @@ const Footer: React.FC = () => {
 
       <div className={styles.bottom}>
         <div className={styles.bottomBrand}>
-          <img src={logo} alt="Попути" className={styles.bottomLogo} />
-          <span className={styles.bottomTitle}>Попути</span>
+          <img src={logo} alt="По пути" className={styles.bottomLogo} />
+          <span className={styles.bottomTitle}>По пути</span>
         </div>
-        <span className={styles.bottomNote}>ООО “Медицинские технологии будущего”</span>
       </div>
     </footer>
   );

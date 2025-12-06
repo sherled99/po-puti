@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './Header.module.css';
 import logo from '../../img/logo.png';
 import { AppDispatch, RootState } from '../../services/types';
-import { logout } from '../../services/actions/user';
+import { fetchCurrentUser, logout } from '../../services/actions/user';
 
 type NavLink = { label: string; href: string; type?: 'anchor' | 'route' };
 
@@ -19,9 +19,29 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch<AppDispatch>();
-  const { isAuthenticated, profile, email } = useSelector((state: RootState) => state.user);
+  const { isAuthenticated, profile, email, token } = useSelector((state: RootState) => state.user);
+  const [isProfileLoading, setIsProfileLoading] = useState<boolean>(() => Boolean(isAuthenticated && token && !profile));
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const hasRequestedProfile = useRef(false);
+
+  useEffect(() => {
+    if (isAuthenticated && token && !profile && !hasRequestedProfile.current) {
+      hasRequestedProfile.current = true;
+      setIsProfileLoading(true);
+      dispatch(fetchCurrentUser())
+        .catch(() => {
+          /* handled elsewhere */
+        })
+        .finally(() => setIsProfileLoading(false));
+      return;
+    }
+
+    if (!isAuthenticated || !token) {
+      hasRequestedProfile.current = false;
+      setIsProfileLoading(false);
+    }
+  }, [dispatch, isAuthenticated, profile, token]);
 
   const openAuthModal = () => {
     if (isAuthenticated) {
@@ -62,10 +82,16 @@ const Header: React.FC = () => {
     };
   }, [isMenuOpen]);
 
-  const fullName =
-    profile?.firstName || profile?.lastName
-      ? `${profile?.firstName ?? ''} ${profile?.lastName ?? ''}`.trim()
-      : email || 'Профиль';
+  const hasName = Boolean(profile?.firstName || profile?.lastName);
+  const isProfilePending = isProfileLoading || (isAuthenticated && token && !profile);
+  const shouldShowEmailFallback = profile && !hasName;
+  const fullName = hasName
+    ? `${profile?.firstName ?? ''} ${profile?.lastName ?? ''}`.trim()
+    : shouldShowEmailFallback
+    ? email || 'Профиль'
+    : isProfilePending
+    ? ''
+    : email || 'Профиль';
 
   const goHome = () => navigate('/');
 
@@ -102,7 +128,7 @@ const Header: React.FC = () => {
                 aria-haspopup="true"
                 aria-expanded={isMenuOpen}
               >
-                {fullName}
+                <span className={styles.userButtonLabel}>{fullName}</span>
                 <span className={`${styles.caret} ${isMenuOpen ? styles.caretOpen : ''}`} aria-hidden="true" />
               </button>
               {isMenuOpen && (

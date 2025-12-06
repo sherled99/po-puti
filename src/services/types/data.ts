@@ -122,3 +122,21 @@ export interface ICreateCardRequest {
   statusId: string;
   packageId: string;
 }
+
+export interface IReview {
+  id: string;
+  reviewerId?: string;
+  reviewerContact?: string;
+  reviewerName?: string;
+  revieweeId?: string;
+  revieweeContact?: string;
+  createdOnUtc: string;
+  text: string;
+  score: number;
+}
+
+export interface ICreateReviewRequest {
+  revieweeId: string;
+  score: number;
+  text: string;
+}

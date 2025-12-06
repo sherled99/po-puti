@@ -3,12 +3,22 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { store } from './services/store';
+import { logout } from './services/actions/user';
+import { setUnauthorizedHandler } from './utils/api';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
 import './index.css';
 
 const container: HTMLElement | null = document.getElementById("root");
+
+setUnauthorizedHandler((status) => {
+  const state = store.getState();
+  if (state.user?.isAuthenticated) {
+    store.dispatch(logout());
+  }
+});
+
 if (container) {
   const root = createRoot(container);
   root.render(

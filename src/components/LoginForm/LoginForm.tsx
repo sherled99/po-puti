@@ -46,6 +46,7 @@ const LoginForm: React.FC = () => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
+                {error && <p className={styles.errorMessage}>{error}</p>}
                 <button type="submit" className={styles.submitButton}>
                     Войти
                 </button>
@@ -63,21 +64,6 @@ const LoginForm: React.FC = () => {
                         &nbsp;Соглашение
                     </a>
                 </p>
-                <div className={styles.socialLogin}>
-                    <p className={styles.socialLoginText}>Войти через социальные сети</p>
-                    <div className={styles.socialIcons}>
-                        <button className={styles.socialButton}>
-                            <img src={VkLogo} alt="VK" className={styles.socialLogo} />
-                        </button>
-                        <button className={styles.socialButton}>
-                            <img
-                                src={YandexLogo}
-                                alt="Yandex"
-                                className={styles.socialLogo}
-                            />
-                        </button>
-                    </div>
-                </div>
             </form>
         </div>
     );

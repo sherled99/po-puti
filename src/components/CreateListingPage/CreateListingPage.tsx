@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Footer from "../Footer/Footer";
@@ -73,6 +73,37 @@ const initialForms: Record<ListingTab, FormState> = {
   deliver: { name: "", from: "", to: "", date: "", packageId: "", description: "", reward: "", contact: "" },
 };
 
+const ISO_DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+
+const toIsoDate = (value: string): string | null => {
+  if (!value) return null;
+  if (ISO_DATE_REGEX.test(value)) return value;
+  const digits = value.replace(/\D/g, "");
+  if (digits.length === 8) {
+    const day = digits.slice(0, 2);
+    const month = digits.slice(2, 4);
+    const year = digits.slice(4);
+    return `${year}-${month}-${day}`;
+  }
+  const parts = value.split(".");
+  if (parts.length === 3) {
+    const day = parts[0]?.padStart(2, "0") ?? "";
+    const month = parts[1]?.padStart(2, "0") ?? "";
+    const year = (parts[2]?.padStart(4, "0") ?? "").padStart(4, "0");
+    if (year && month && day) {
+      return `${year}-${month}-${day}`;
+    }
+  }
+  return null;
+};
+
+const formatDateForInput = (value: string): string => {
+  const iso = toIsoDate(value);
+  if (!iso) return value;
+  const [year, month, day] = iso.split("-");
+  return `${day}.${month}.${year}`;
+};
+
 const ArrowDownIcon = () => (
   <svg className={styles.icon} viewBox="0 0 20 20" aria-hidden="true" focusable="false">
     <path d="m5.5 7.5 4.5 5 4.5-5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
@@ -83,6 +114,7 @@ const CreateListingPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { token, profile, userId } = useSelector((state: RootState) => state.user);
+  const dateInputRef = useRef<HTMLInputElement | null>(null);
 
   const [activeTab, setActiveTab] = useState<ListingTab>("send");
   const [forms, setForms] = useState<Record<ListingTab, FormState>>(initialForms);
@@ -171,6 +203,33 @@ const CreateListingPage: React.FC = () => {
     [activeTab]
   );
 
+  const handleDateChange = useCallback(
+    (value: string) => {
+      setStatusMessage(null);
+      setError(null);
+      const iso = toIsoDate(value);
+      setForms((prev) => ({
+        ...prev,
+        [activeTab]: {
+          ...prev[activeTab],
+          date: iso ?? value,
+        },
+      }));
+    },
+    [activeTab]
+  );
+
+  const openCalendar = useCallback(() => {
+    const node = dateInputRef.current;
+    if (!node) return;
+    if (typeof node.showPicker === "function") {
+      node.showPicker();
+    } else {
+      node.focus();
+      node.click();
+    }
+  }, []);
+
   useEffect(() => {
     if (token && !profile && !userId) {
       dispatch(fetchCurrentUser()).catch(() => {
@@ -233,11 +292,12 @@ const CreateListingPage: React.FC = () => {
     if (!currentForm.name.trim()) return "Добавьте название объявления.";
     if (!currentForm.from.trim()) return "Укажите город отправления.";
     if (!currentForm.to.trim()) return "Укажите город назначения.";
-    if (!currentForm.date.trim()) return "Выберите дату прибытия.";
+    const isoDate = toIsoDate(currentForm.date);
+    if (!isoDate) return "Выберите дату прибытия.";
     if (!currentForm.packageId) return "Выберите размер/тип посылки.";
     if (!currentForm.description.trim()) return "Добавьте описание.";
     if (!currentForm.contact.trim()) return "Оставьте способ связи.";
-    if (Number.isNaN(Date.parse(currentForm.date))) return "Некорректная дата.";
+    if (Number.isNaN(Date.parse(isoDate))) return "Некорректная дата.";
     return null;
   };
 
@@ -262,7 +322,12 @@ const CreateListingPage: React.FC = () => {
     }
 
     const createdById = userId || profile?.id;
-    const time = new Date(currentForm.date);
+    const isoDate = toIsoDate(currentForm.date);
+    if (!isoDate || Number.isNaN(Date.parse(isoDate))) {
+      setError("Некорректная дата.");
+      return;
+    }
+    const time = new Date(isoDate);
     const typeId = TRIP_TYPE_TO_ID[activeTab];
     const name =
       currentForm.name.trim() ||
@@ -282,12 +347,8 @@ const CreateListingPage: React.FC = () => {
 
     setSubmitting(true);
     try {
-      await createCard(payload, token || undefined);
-      setStatusMessage("Объявление отправлено в бэк. Данные сохранены на сервере.");
-      setForms((prev) => ({
-        ...prev,
-        [activeTab]: { ...initialForms[activeTab], packageId: currentForm.packageId },
-      }));
+      const created = await createCard(payload, token || undefined);
+      navigate(`/search/${created.id}`, { replace: true });
     } catch (err) {
       console.error("Failed to create card", err);
       setError("Не удалось отправить объявление. Проверьте данные и попробуйте снова.");
@@ -372,12 +433,32 @@ const CreateListingPage: React.FC = () => {
 
                 <label className={styles.field}>
                   <span className={styles.fieldLabel}>Дата прибытия</span>
-                  <input
-                    type="date"
-                    className={styles.input}
-                    value={currentForm.date}
-                    onChange={handleChange("date")}
-                  />
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="text"
+                      className={`${styles.input} ${styles.dateDisplay}`}
+                      placeholder="дд.мм.гггг"
+                      value={formatDateForInput(currentForm.date)}
+                      onChange={(event) => handleDateChange(event.target.value)}
+                    />
+                    <button
+                      type="button"
+                      className={styles.dateCalendarButton}
+                      onClick={openCalendar}
+                      aria-label="Открыть календарь"
+                    >
+                      <span aria-hidden="true">📅</span>
+                    </button>
+                    <input
+                      ref={dateInputRef}
+                      type="date"
+                      className={styles.dateHidden}
+                      value={toIsoDate(currentForm.date) ?? ""}
+                      onChange={(event) => handleDateChange(event.target.value)}
+                      aria-hidden="true"
+                      tabIndex={-1}
+                    />
+                  </div>
                 </label>
 
                 <label className={styles.field}>
@@ -437,7 +518,6 @@ const CreateListingPage: React.FC = () => {
                     value={currentForm.contact}
                     onChange={handleChange("contact")}
                   />
-                  <p className={styles.helper}>{currentCopy.contactNote}</p>
                 </label>
 
                 {optionsError && <div className={styles.status}>{optionsError}</div>}
@@ -484,13 +564,6 @@ const CreateListingPage: React.FC = () => {
                   );
                 })}
               </ul>
-              <div className={styles.timelineNote}>
-                <p>
-                  После отправки данные уйдут на бекенд по /api/cards. Тип объявления:{" "}
-                  {typeOptions.length ? typeOptions.find((t) => t.id === TRIP_TYPE_TO_ID[activeTab])?.name ?? "—" : "—"}.
-                  Статус: {selectedStatusId}. Размер: {packageLabel(currentForm.packageId)}.
-                </p>
-              </div>
             </aside>
           </div>
         </div>

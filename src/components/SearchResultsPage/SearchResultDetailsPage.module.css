@@ -286,6 +286,150 @@
   color: #98a1b3;
 }
 
+.reviewNote {
+  margin: 6px 0;
+  color: #6b7488;
+}
+
+.reviewError {
+  color: #d14343;
+}
+
+.starIcon {
+  color: #d5dbea;
+  font-size: 18px;
+}
+
+.starIconActive {
+  color: #ffb933;
+}
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(12, 17, 29, 0.45);
+  display: grid;
+  place-items: center;
+  z-index: 999;
+  padding: 16px;
+}
+
+.modalCard {
+  background: #fff;
+  border-radius: 18px;
+  max-width: 520px;
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.modalTitle {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.modalClose {
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  cursor: pointer;
+  color: #7a8194;
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modalField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modalLabel {
+  font-weight: 700;
+  color: #1f2738;
+}
+
+.starsPicker {
+  display: flex;
+  gap: 8px;
+}
+
+.starButton {
+  border: 1px solid #d9deeb;
+  background: #fff;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  color: #b7becf;
+  transition: all 0.15s ease, transform 0.1s ease;
+  box-shadow: 0 6px 14px rgba(31, 39, 56, 0.08);
+}
+
+.starButtonActive {
+  background: radial-gradient(circle at 30% 30%, #ffe8a3, #ffc947 60%, #ffac1f);
+  border-color: #f7b733;
+  color: #1f2738;
+  box-shadow: 0 12px 24px rgba(255, 184, 28, 0.35);
+  transform: translateY(-1px);
+}
+
+.modalTextarea {
+  min-height: 120px;
+  border: 1px solid #e0e6f0;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 0.98rem;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.modalNote {
+  margin: 0;
+  color: #4a5368;
+  font-size: 0.95rem;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modalPrimary,
+.modalSecondary {
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.modalPrimary {
+  background: linear-gradient(135deg, #ffc947, #ffac1f);
+  color: #1f2738;
+  box-shadow: 0 12px 24px rgba(255, 184, 28, 0.35);
+}
+
+.modalSecondary {
+  background: #fff;
+  border-color: #e0e6f0;
+  color: #1f2738;
+}
+
 .notFound {
   padding: 160px 0;
   text-align: center;

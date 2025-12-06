@@ -13,6 +13,8 @@ import {
   ICardType,
   ICardStatus,
   ICreateCardRequest,
+  IReview,
+  ICreateReviewRequest,
 } from '../services/types/data';
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -24,6 +26,25 @@ const withBaseUrl = (path: string) => {
     return `${API_URL.replace(/\/$/, '')}${path}`;
   }
   return path;
+};
+
+export class HttpError extends Error {
+  status: number;
+  data?: unknown;
+
+  constructor(message: string, status: number, data?: unknown) {
+    super(message);
+    this.name = 'HttpError';
+    this.status = status;
+    this.data = data;
+  }
+}
+
+type UnauthorizedHandler = (status: number) => void;
+let unauthorizedHandler: UnauthorizedHandler | null = null;
+
+export const setUnauthorizedHandler = (handler: UnauthorizedHandler | null) => {
+  unauthorizedHandler = handler;
 };
 
 let cachedCountriesNowCities: string[] | null = null;
@@ -156,6 +177,28 @@ export const getMyArchiveCards = async (token: string): Promise<ISearchCard[]> =
   });
 };
 
+export const archiveCard = async (cardId: string, token: string): Promise<void> => {
+  return _authrequest<void>(withBaseUrl(`/api/cards/${cardId}/archive`), {
+    method: 'POST',
+    headers: withAuthHeaders(token),
+  });
+};
+
+export const getReviewsByUser = async (userId: string, token?: string | null): Promise<IReview[]> => {
+  return _authrequest<IReview[]>(withBaseUrl(`/api/reviews/user/${userId}`), {
+    method: 'GET',
+    headers: token ? withAuthHeaders(token) : undefined,
+  });
+};
+
+export const createReview = async (data: ICreateReviewRequest, token: string): Promise<IReview> => {
+  return _authrequest<IReview>(withBaseUrl('/api/reviews'), {
+    method: 'POST',
+    headers: withAuthHeaders(token, { 'Content-Type': 'application/json' }),
+    body: JSON.stringify(data),
+  });
+};
+
 export const searchCards = async (params: ISearchCardsParams): Promise<ISearchCard[]> => {
   const searchParams = new URLSearchParams({
     cityFrom: params.cityFrom,
@@ -229,7 +272,10 @@ const _request = <T>(url: string, options?: IOptions): Promise<T> => {
     .then((res) => _parseResponse<T>(res))
     .catch((err) => {
       console.error(err);
-      throw new Error('Network error');
+      if (err instanceof HttpError || err instanceof Error) {
+        throw err;
+      }
+      throw new Error(String(err ?? 'Network error'));
     });
 };
 
@@ -243,7 +289,10 @@ const _authrequest = <T>(url: string, options?: IOptions): Promise<T> => {
     .then((res) => _parseResponse<T>(res))
     .catch((err) => {
       console.error(err);
-      throw new Error('Network error');
+      if (err instanceof HttpError || err instanceof Error) {
+        throw err;
+      }
+      throw new Error(String(err ?? 'Network error'));
     });
 };
 
@@ -258,7 +307,10 @@ const _parseResponse = async <T>(res: Response): Promise<T> => {
         typeof data === 'object' && data !== null && 'message' in data
           ? String((data as { message?: unknown }).message)
           : 'Request failed';
-      throw new Error(message);
+      if (res.status === 401 && unauthorizedHandler) {
+        unauthorizedHandler(res.status);
+      }
+      throw new HttpError(message, res.status, data);
     }
     return data as T;
   }
@@ -266,7 +318,10 @@ const _parseResponse = async <T>(res: Response): Promise<T> => {
   if (!res.ok) {
     const text = await res.text();
     const message = text || `Request failed with status ${res.status}`;
-    throw new Error(message);
+    if (res.status === 401 && unauthorizedHandler) {
+      unauthorizedHandler(res.status);
+    }
+    throw new HttpError(message, res.status, text);
   }
 
   return null as T;

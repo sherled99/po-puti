@@ -105,6 +105,8 @@
 .userButton {
   display: inline-flex;
   align-items: center;
+  width: 200px;
+  min-width: 200px;
   gap: 8px;
   padding: 10px 14px;
   border-radius: 16px;
@@ -119,6 +121,14 @@
 .userButton:hover {
   border-color: #f0a500;
   box-shadow: 0 12px 24px rgba(31, 39, 56, 0.12);
+}
+
+.userButtonLabel {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .caret {

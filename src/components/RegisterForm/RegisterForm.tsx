@@ -75,21 +75,6 @@ const RegisterForm: React.FC = () => {
                         &nbsp;Соглашение
                     </a>
                 </p>
-                <div className={styles.socialLogin}>
-                    <p className={styles.socialLoginText}>Войти через социальные сети</p>
-                    <div className={styles.socialIcons}>
-                        <button type="button" className={styles.socialButton} onClick={loginFromSocial}>
-                            <img src={VkLogo} alt="VK" className={styles.socialLogo} />
-                        </button>
-                        <button type="button" className={styles.socialButton} onClick={loginFromSocial}>
-                            <img
-                                src={YandexLogo}
-                                alt="Yandex"
-                                className={styles.socialLogo}
-                            />
-                        </button>
-                    </div>
-                </div>
             </form>
         </div>
     );

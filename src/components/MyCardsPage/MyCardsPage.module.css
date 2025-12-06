@@ -71,15 +71,28 @@
   margin: 0 auto 12px;
   border-radius: 18px;
   background: #f0f3f9;
-  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
 }
 
-.avatar::after {
-  content: "";
-  position: absolute;
-  inset: 26px;
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+.avatarFallback {
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background: #d9dfe9;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  color: #4a5368;
+  font-size: 1.1rem;
 }
 
 .name {
@@ -287,6 +300,29 @@
   margin: 8px 0 0;
   color: #4c5670;
   line-height: 1.4;
+}
+
+.cardActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.archiveButton {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #e0e6f0;
+  background: #ffffff;
+  color: #1f2738;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.archiveButton:hover {
+  border-color: #ffb933;
+  box-shadow: 0 8px 18px rgba(31, 39, 56, 0.12);
+  transform: translateY(-1px);
 }
 
 .stateText {
