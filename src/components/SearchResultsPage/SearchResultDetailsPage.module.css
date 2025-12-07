@@ -460,15 +460,56 @@
 
 @media (max-width: 768px) {
   .container {
-    padding: 24px 16px 0;
+    padding: 16px 12px 0;
   }
 
   .profileCard,
   .reviewsCard {
-    padding: 28px 24px;
+    padding: 22px 18px;
+    border-radius: 18px;
   }
 
   .sidebarCard {
+    max-width: 100%;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .detailAvatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+  }
+
+  .placeholderAvatar {
+    width: 72px;
+    height: 72px;
+    font-size: 1.1rem;
+  }
+
+  .sidebarContent {
+    text-align: left;
+  }
+
+  .reviewsHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .reviewsList {
+    gap: 10px;
+  }
+
+  .reviewItem {
+    padding: 12px;
+  }
+
+  .reviewAuthorRow {
+    flex-wrap: wrap;
+  }
+
+  .modalCard {
     max-width: 100%;
   }
 }

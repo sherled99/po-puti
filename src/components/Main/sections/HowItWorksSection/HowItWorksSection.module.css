@@ -186,65 +186,6 @@
 
 @media (max-width: 768px) {
   .section {
-    padding: 80px 16px 0;
-  }
-
-  .heading {
-    font-size: 1.8rem;
-    margin-bottom: 32px;
-  }
-
-  .layout {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      'stepOne'
-      'stepTwo'
-      'stepThree'
-      'stepFour';
-  }
-
-  .card {
-    padding: 32px 24px;
-    text-align: center;
-    min-height: 0;
-  }
-
-  .stepContent {
-    align-items: center;
-  }
-
-  .cta {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .illustration,
-  .stepFour .illustration,
-  .stepOne .illustration {
-    align-self: center;
-    width: clamp(140px, 60%, 220px);
-  }
-
-  .stepTwo .illustration {
-    position: static;
-    align-self: center;
-    width: clamp(140px, 60%, 220px);
-  }
-
-  .stepThree .illustration {
-    align-self: center;
-    width: clamp(160px, 65%, 240px);
-  }
-
-  .stepFour {
-    flex-direction: column;
-  }
-
-  .stepFour .stepContent {
-    padding-right: 0;
-  }
-
-  .stepFour .illustration {
-    position: static;
+    display: none;
   }
 }

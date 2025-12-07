@@ -53,9 +53,10 @@
   font-weight: 500;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .wrapper {
-    margin-top: -40px;
+    margin-top: 24px;
+    padding: 0 16px;
   }
 
   .card {

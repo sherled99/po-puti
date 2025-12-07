@@ -153,10 +153,12 @@
 
 .tabs {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
   gap: 10px;
   padding: 0 4px 12px;
   border-bottom: 1px solid #ebeff5;
+  scrollbar-width: none;
 }
 
 .tab {
@@ -168,6 +170,7 @@
   cursor: pointer;
   position: relative;
   transition: color 0.2s ease;
+  white-space: nowrap;
 }
 
 .tabActive {
@@ -407,10 +410,14 @@
   }
 
   .tabs {
-    gap: 6px;
+    gap: 8px;
   }
 
   .tab {
-    padding: 8px 10px;
+    padding: 8px 12px;
+  }
+
+  .layout {
+    gap: 12px;
   }
 }

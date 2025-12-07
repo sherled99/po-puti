@@ -449,3 +449,9 @@
     font-size: 1.7rem;
   }
 }
+
+@media (max-width: 720px) {
+  .timeline {
+    display: none;
+  }
+}
