@@ -17,7 +17,7 @@ import {
   ICreateReviewRequest,
 } from '../services/types/data';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.REACT_APP_API_URL || 'https://po-puti-service.onrender.com';
 const COUNTRIES_NOW_CITIES_URL = 'https://countriesnow.space/api/v0.1/countries/cities';
 export const COUNTRIES_NOW_SUPPORTED_COUNTRIES = ['Russia', 'Serbia', 'Georgia', 'Kazakhstan'] as const;
 

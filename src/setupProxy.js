@@ -1,7 +1,7 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 module.exports = function proxy(app) {
-  const target = 'https://localhost:44361';
+  const target = process.env.REACT_APP_API_URL || 'https://po-puti-service.onrender.com';
 
   app.use(
     '/api',
