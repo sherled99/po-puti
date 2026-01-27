@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { format } from "date-fns";
-import ruLocale from "date-fns/locale/ru";
+import { ru as ruLocale } from "date-fns/locale";
 import styles from "./SearchResultCard.module.css";
 import type { ISearchCard } from "../../services/types/data";
 import type { RootState } from "../../services/types";

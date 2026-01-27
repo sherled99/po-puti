@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { endOfDay, format, startOfDay } from "date-fns";
-import ruLocale from "date-fns/locale/ru";
+import { ru as ruLocale } from "date-fns/locale";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./SearchResultsPage.module.css";
 import SearchForm, { SearchFormValues, TripTab } from "../SearchForm/SearchForm";

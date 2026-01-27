@@ -3,7 +3,7 @@ import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { format } from "date-fns";
-import ruLocale from "date-fns/locale/ru";
+import { ru as ruLocale } from "date-fns/locale";
 import styles from "./SearchForm.module.css";
 import { getPackageTypes } from "../../utils/api";
 import type { IPackageType } from "../../services/types/data";

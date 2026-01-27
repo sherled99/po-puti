@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { format } from "date-fns";
-import ruLocale from "date-fns/locale/ru";
+import { ru as ruLocale } from "date-fns/locale";
 import styles from "./SearchResultDetailsPage.module.css";
 import Footer from "../Footer/Footer";
 import { createReview, getCardById, getReviewsByUser, getUserById } from "../../utils/api";
