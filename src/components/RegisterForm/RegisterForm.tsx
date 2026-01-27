@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { register } from '../../services/actions/user';
-import { RootState } from '../../services/types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./RegisterForm.module.css";
-import YandexLogo from "../../img/yandexLogo.png";
-import VkLogo from "../../img/vkLogo.png";
 
 const RegisterForm: React.FC = () => {
     const dispatch = useDispatch();
@@ -15,18 +12,16 @@ const RegisterForm: React.FC = () => {
     const [password, setPassword] = useState('');
     const [againPassword, setAgainPassword] = useState('');
 
-    const { loading, error } = useSelector((state: RootState) => state.user);
-
     const handleRegister = (e: React.FormEvent) => {
         e.preventDefault();
+        if (password !== againPassword) {
+            alert("Пароли не совпадают");
+            return;
+        }
         dispatch(register({ email, password }) as any);
         navigate(`/verification`, {
             state: { backgroundLocation: location, email: email },
         });
-    }
-
-    const loginFromSocial = () => {
-        console.log("vk")
     }
 
     return (

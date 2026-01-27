@@ -28,13 +28,6 @@ const MyCardsPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isProfileLoading, setIsProfileLoading] = useState<boolean>(() => Boolean(token && !profile));
   const [reviews, setReviews] = useState<IReview[]>([]);
-  const [reviewsLoading, setReviewsLoading] = useState(false);
-  const [reviewsError, setReviewsError] = useState<string | null>(null);
-  const [reviewForm, setReviewForm] = useState<{ targetContact: string; rating: number; text: string }>({
-    targetContact: "",
-    rating: 5,
-    text: "",
-  });
 
   const avatarUrl = profile?.image ? `data:image/*;base64,${profile.image}` : null;
 
@@ -75,16 +68,11 @@ const MyCardsPage: React.FC = () => {
 
   const fetchUserReviews = useCallback(async () => {
     if (!token || !profile?.id) return;
-    setReviewsLoading(true);
-    setReviewsError(null);
     try {
       const data = await getReviewsByUser(profile.id, token);
       setReviews(data);
     } catch (err) {
       console.error("Failed to load reviews", err);
-      setReviewsError("Не удалось загрузить отзывы.");
-    } finally {
-      setReviewsLoading(false);
     }
   }, [profile?.id, token]);
 

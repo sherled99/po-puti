@@ -9,42 +9,6 @@ import { createReview, getCardById, getReviewsByUser, getUserById } from "../../
 import type { ICreateReviewRequest, IReview, ISearchCard, IUser } from "../../services/types/data";
 import type { RootState } from "../../services/types";
 
-interface Review {
-  id: number;
-  author: string;
-  rating: number;
-  text: string;
-  date: string;
-}
-
-const mockReviews: Review[] = [
-  {
-    id: 1,
-    author: "Валерия",
-    rating: 5,
-    text: "Всё прошло хорошо, как договорились, посылка была передана в целости и сохранности. Рекомендую Александра!",
-    date: "12 января",
-  },
-  {
-    id: 2,
-    author: "Михаил",
-    rating: 5,
-    text: "Всё прошло отлично, приехал вовремя, держал связь на протяжении всей поездки.",
-    date: "12 января",
-  },
-  {
-    id: 3,
-    author: "Людмила",
-    rating: 5,
-    text: "Оперативно договорились, посылку передал лично получателю. Спасибо!",
-    date: "12 января",
-  },
-];
-
-function renderStars(count: number) {
-  return Array.from({ length: count }, (_, index) => <span key={index} className={styles.star} />);
-}
-
 const SearchResultDetailsPage: React.FC = () => {
   const { id } = useParams();
   const location = useLocation();
@@ -119,7 +83,7 @@ const SearchResultDetailsPage: React.FC = () => {
     return () => {
       cancelled = true;
     };
-  }, [avatar, card?.createdById, token]);
+  }, [avatar, card?.createdById, card?.createdByImage, token]);
 
   useEffect(() => {
     let cancelled = false;

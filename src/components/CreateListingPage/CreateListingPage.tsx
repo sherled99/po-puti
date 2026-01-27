@@ -3,13 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Footer from "../Footer/Footer";
 import styles from "./CreateListingPage.module.css";
-import { createCard, getCardStatuses, getCardTypes, getPackageTypes } from "../../utils/api";
-import type {
-  ICardStatus,
-  ICardType,
-  ICreateCardRequest,
-  IPackageType,
-} from "../../services/types/data";
+import { createCard, getCardStatuses, getPackageTypes } from "../../utils/api";
+import type { ICardStatus, ICreateCardRequest, IPackageType } from "../../services/types/data";
 import type { AppDispatch, RootState } from "../../services/types";
 import { fetchCurrentUser } from "../../services/actions/user";
 import { useCitiesOptions } from "../../hooks/useCitiesOptions";
@@ -120,7 +115,6 @@ const CreateListingPage: React.FC = () => {
   const [forms, setForms] = useState<Record<ListingTab, FormState>>(initialForms);
   const [packageOptions, setPackageOptions] = useState<IPackageType[]>([]);
   const [statusOptions, setStatusOptions] = useState<ICardStatus[]>([]);
-  const [typeOptions, setTypeOptions] = useState<ICardType[]>([]);
   const [optionsError, setOptionsError] = useState<string | null>(null);
   const [loadingOptions, setLoadingOptions] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -244,15 +238,13 @@ const CreateListingPage: React.FC = () => {
       setLoadingOptions(true);
       setOptionsError(null);
       try {
-        const [packages, statuses, types] = await Promise.all([
+        const [packages, statuses] = await Promise.all([
           getPackageTypes(),
           getCardStatuses(),
-          getCardTypes(),
         ]);
         if (cancelled) return;
         setPackageOptions(packages);
         setStatusOptions(statuses);
-        setTypeOptions(types);
         setForms((prev) => {
           const firstPackage = packages[0]?.id || "";
           return {
