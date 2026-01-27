@@ -28,7 +28,7 @@ export const Modal: FC<ModalProps> = ({ children }) => {
     return () => {
       document.removeEventListener('keydown', handleEscape);
     };
-  }, [navigate]);
+  }, [navigate, location.pathname]);
 
   if (!modalRoot) {
     return null;

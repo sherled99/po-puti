@@ -349,8 +349,6 @@ const CreateListingPage: React.FC = () => {
     }
   };
 
-  const packageLabel = (id: string) => packageOptions.find((item) => item.id === id)?.name ?? "Размер не выбран";
-
   return (
     <main className={styles.page}>
       <section className={styles.heroArea}>

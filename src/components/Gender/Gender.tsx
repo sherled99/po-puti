@@ -9,7 +9,7 @@ const Gender: React.FC = () => {
 
   useEffect(() => {
     dispatch(getGenders() as any);
-  }, []);
+  }, [dispatch]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
