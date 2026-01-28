@@ -5,7 +5,11 @@
   "outputDirectory": "build",
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/api/_proxy/(.*)",
+      "destination": "/api/_proxy/$1"
+    },
+    {
+      "source": "/((?!api).*)",
       "destination": "/index.html"
     }
   ]
