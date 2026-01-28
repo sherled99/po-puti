@@ -5,11 +5,7 @@
   "outputDirectory": "build",
   "rewrites": [
     {
-      "source": "/backend/(.*)",
-      "destination": "/backend/$1"
-    },
-    {
-      "source": "/((?!backend).*)",
+      "source": "/((?!api).*)",
       "destination": "/index.html"
     }
   ]

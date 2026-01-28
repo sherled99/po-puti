@@ -19,16 +19,28 @@ import {
 
 // Default to internal Vercel/CRA proxy to avoid mixed-content issues in prod.
 // Override via REACT_APP_API_URL for custom environments.
-const API_URL = process.env.REACT_APP_API_URL || '/backend';
+const API_URL = process.env.REACT_APP_API_URL || '/api/proxy';
 const COUNTRIES_NOW_CITIES_URL = 'https://countriesnow.space/api/v0.1/countries/cities';
 export const COUNTRIES_NOW_SUPPORTED_COUNTRIES = ['Russia', 'Serbia', 'Georgia', 'Kazakhstan'] as const;
 
 const withBaseUrl = (path: string) => {
-  if (API_URL) {
-    return `${API_URL.replace(/\/$/, '')}${path}`;
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+
+  if (!API_URL) {
+    return normalizedPath;
   }
-  return path;
+
+  const base = API_URL.replace(/\/$/, '');
+  if (base.endsWith('/api/proxy')) {
+    // Proxy expects target path in ?path=/api/...
+    return `${base}?path=${normalizedPath}`;
+  }
+
+  return `${base}${normalizedPath}`;
 };
+
+const appendQuery = (url: string, queryString: string) =>
+  queryString ? `${url}${url.includes('?') ? '&' : '?'}${queryString}` : url;
 
 export class HttpError extends Error {
   status: number;
@@ -211,7 +223,9 @@ export const searchCards = async (params: ISearchCardsParams): Promise<ISearchCa
     packageId: params.packageId,
   });
 
-  return _request<ISearchCard[]>(`${withBaseUrl('/api/Cards/search')}?${searchParams.toString()}`, {
+  const url = appendQuery(withBaseUrl('/api/Cards/search'), searchParams.toString());
+
+  return _request<ISearchCard[]>(url, {
     method: 'GET',
   });
 };
