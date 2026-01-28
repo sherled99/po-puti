@@ -1,5 +1,5 @@
-// Vercel serverless proxy to avoid mixed-content issues.
-// Path: /api/_proxy/[...path] -> forwards to API_PROXY_TARGET or fallback.
+// Serverless proxy for Vercel to reach the HTTP backend without mixed content.
+// Route: /backend/[...path] -> forwards to API_PROXY_TARGET (or default).
 
 module.exports = async function handler(req, res) {
   const path = (req.query && req.query.path) || [];
@@ -7,7 +7,7 @@ module.exports = async function handler(req, res) {
   const targetPath = Array.isArray(path) ? path.join('/') : String(path || '');
   const url = new URL(`${targetBase}/${targetPath}`);
 
-  // Forward query params except the catch-all param.
+  // Forward query params, excluding the catch-all param itself.
   for (const [key, value] of Object.entries(req.query || {})) {
     if (key === 'path') continue;
     url.searchParams.set(key, Array.isArray(value) ? value[0] : value);
@@ -38,7 +38,7 @@ module.exports = async function handler(req, res) {
     redirect: 'manual',
   });
 
-  // set-cookie: raw() may not exist in edge runtimes; use get.
+  // set-cookie: use safe getter (raw() can be absent in Vercel runtime).
   const setCookie = response.headers.get('set-cookie');
   if (setCookie) res.setHeader('set-cookie', setCookie);
 

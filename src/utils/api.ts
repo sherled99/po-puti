@@ -19,7 +19,7 @@ import {
 
 // Default to internal Vercel/CRA proxy to avoid mixed-content issues in prod.
 // Override via REACT_APP_API_URL for custom environments.
-const API_URL = process.env.REACT_APP_API_URL || '/api/_proxy';
+const API_URL = process.env.REACT_APP_API_URL || '/backend';
 const COUNTRIES_NOW_CITIES_URL = 'https://countriesnow.space/api/v0.1/countries/cities';
 export const COUNTRIES_NOW_SUPPORTED_COUNTRIES = ['Russia', 'Serbia', 'Georgia', 'Kazakhstan'] as const;
 
